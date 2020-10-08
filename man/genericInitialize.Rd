@@ -2,7 +2,7 @@
 % Please edit documentation in R/0-utils.R
 \name{genericInitialize}
 \alias{genericInitialize}
-\title{Internal function : generic initialize}
+\title{Generic function to create initialize}
 \usage{
 genericInitialize(...)
 }
@@ -10,8 +10,9 @@ genericInitialize(...)
 \item{...}{list of function args needed for the initialize}
 }
 \value{
-Initialize function
+Initialize function.
 }
 \description{
-Internal function : generic initialize
+Internal function.
+Create an initialize R6 function (see R6 documentation).
 }

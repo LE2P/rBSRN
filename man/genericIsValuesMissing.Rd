@@ -2,13 +2,13 @@
 % Please edit documentation in R/0-utils.R
 \name{genericIsValuesMissing}
 \alias{genericIsValuesMissing}
-\title{Title}
+\title{Generic function return true is the is missing mandatory variables}
 \usage{
 genericIsValuesMissing()
 }
 \value{
-
+TRUE is there is mandatory value missing / FALSE if not.
 }
 \description{
-Title
+Internal function.
 }

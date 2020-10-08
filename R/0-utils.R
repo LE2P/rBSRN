@@ -1,10 +1,11 @@
 #' Put a dot on a variable name
 #'
+#' Internal function.
 #' This function put a dot behind the variable name : "foo" => ".foo".
 #'
 #' @param varName char - Variable Name
 #'
-#' @return The variable name with a dot
+#' @return The variable name with a dot.
 #'
 #' @examples
 #' dot('foo')
@@ -18,11 +19,12 @@ dot <- function(varName) {
 
 #' Remove dot on a variable name
 #'
+#' Internal function.
 #' This function remove a dot behind the variable name : ".foo" => "foo
 #'
 #' @param varName char - Variable Name
 #'
-#' @return The variable name without a dot
+#' @return The variable name without a dot.
 #'
 #' @examples
 #' undot(".foo")
@@ -34,160 +36,207 @@ undot <- function(varName){
 }
 
 
-#' Internal function : generic active binding
+#' Generic active binding
 #'
+#' Internal function.
 #' Create binding between private variable and R6 object.
 #'
 #' @param varName char - Variable Name
 #'
-#' @return Binding for the varName
+#' @return Binding for the varName.
 #'
 #' @examples
 #' \dontrun{
 #' username = genericActiveBinding(".username")
 #' }
 genericActiveBinding <- function(varName){
-  eval(
-    parse(
-      text = paste0(
-        "function(value){
-           if (missing(value)) return(private$", varName, "$value)
-           else {
-             private$", varName, "$validateFunction(value)
-             private$", varName, "$value <- value
-           }
-         }"
-      )
+  parse(
+    text = paste0(
+      "function(value){
+         if (missing(value)) return(private$", varName, "$value)
+         else {
+           private$", varName, "$validateFunction(value)
+           private$", varName, "$value <- value
+         }
+       }"
     )
-  )
+  ) %>% eval()
 }
 
 
-#' Internal function : generic initialize
+#' Generic function to create initialize
+#'
+#' Internal function.
+#' Create an initialize R6 function (see R6 documentation).
 #'
 #' @param ... list of function args needed for the initialize
 #'
-#' @return Initialize function
+#' @return Initialize function.
+#'
 genericInitialize <- function(...){
   dots <- list(...)
   thisArgs <- paste(names(dots), "=", dots, collapse = ", ")
-  eval(
-    parse(
-      text = paste0(
-        "function(", thisArgs, "){
-           for (var in ls()){
-             value <- get(var)
-             .var <- dot(var)
-             if(!is.null(value)){
-               private[[.var]]$validateFunction(value)
-               private[[.var]]$value <- value
-             }
+  parse(
+    text = paste0(
+      "function(", thisArgs, "){
+         for (var in ls()){
+           value <- get(var)
+           .var <- dot(var)
+           if(!is.null(value)){
+             private[[.var]]$validateFunction(value)
+             private[[.var]]$value <- value
            }
-         }"
-      )
+         }
+       }"
     )
-  )
+  ) %>% eval()
 }
 
 
-#' Title
+#' Generic function to control mandatory
 #'
-#' @param var
+#' Internal function.
+#' Allow to create an R6 public method to know if private$varName$mandatory.
 #'
-#' @return
-genericIsMandatory <- function(var){
-  private[[dot(var)]]$mandatory
+#' @param varName char - Variable Name
+#'
+genericIsMandatory <- function(varName){
+  private[[dot(varName)]]$mandatory
 }
 
-#' Title
+
+#' Generic function to control missing value
 #'
-#' @param var
+#' Internal function.
+#' Allow to create an R6 public method to know if private$varName$value is null (missing).
 #'
-#' @return
-genericIsMissing <- function(var){
-  is.null(private[[dot(var)]]$value)
+#' @param varName char - Variable Name
+#'
+genericIsMissing <- function(varName){
+  is.null(private[[dot(varName)]]$value)
 }
 
-#' Title
+
+#' Generic function to list all mandatory variable
 #'
-#' @return
+#' Internal function.
+#' This function give a list of all mandatory variable names.
+#'
 genericMandatories <- function(){
-    lapply(names(private), function(var) if (self$isMandatory(var)) undot(var)) %>% unlist()
+    lapply(names(private), function(varName) if (self$isMandatory(varName)) undot(varName)) %>% unlist()
 }
 
-#' Title
+
+#' Generic function to list all missing vairable
 #'
-#' @return
+#' Internal function.
+#' This function give a list of all missing variable names, i.e. the variable
+#' is empty and mandatory.
+#'
 genericMissings <- function(){
-  lapply(names(private), function(var) if(self$isMandatory(var) & self$isMissing(var)) undot(var)) %>% unlist()}
+  lapply(
+    names(private),
+    function(varName){
+      if(self$isMandatory(varName) & self$isMissing(varName))
+        undot(varName)
+    }
+  ) %>% unlist()
+}
 
-#' Title
-#'
-#' @return
-genericIsValuesMissing = function(){!is.null(self$missings())}
 
-#' Title
+#' Generic function return true is the is missing mandatory variables
 #'
-#' @param var
+#' Internal function.
 #'
-#' @return
-genericGetDefault = function(var){private[[dot(var)]]$value <- private[[dot(var)]]$defaultValue}
+#' @return TRUE is there is mandatory value missing / FALSE if not.
+#'
+genericIsValuesMissing = function(){
+  !is.null(self$missings())
+}
 
-#' Title
-#'
-#' @param var
-#'
-#' @return
-genericGetMissingCode <- function(var){private[[dot(var)]]$missingCode}
 
-#' Title
+#' Generic function to set value to it default value
 #'
-#' @param var
+#' Internal function.
 #'
-#' @return
-genericGetLabel <- function(var){private[[dot(var)]]$label}
+#' @param varName char - Variable Name
+#'
+genericSetDefault = function(varName){
+  private[[dot(varName)]]$value <- private[[dot(varName)]]$defaultValue
+}
 
-#' Title
+#' Generic function to get missing code
+#'
+#' Internal function.
+#'
+#' @param varName char - Variable Name
+#'
+genericGetMissingCode <- function(varName){
+  private[[dot(varName)]]$missingCode
+}
+
+#' Generic function to get label
+#'
+#' Internal function.
+#'
+#' @param varName char - Variable Name
+#'
+genericGetLabel <- function(varName){
+  private[[dot(varName)]]$label
+}
+
+
+#' Generic function to show BSRN format (cat)
+#'
+#' Internal function.
 #'
 #' @param ...
 #'
-#' @return
-genericShowBsrnFormat <- function(...){self$getBsrnFormat(...) %>% cat()}
-
-#' Title
-#'
-#' @return
-genericPrint <- function(){
-  if(self$isValuesMissing()) cat("The object is missing value(s).\n") else self$showBsrnFormat()
+genericShowBsrnFormat <- function(...){
+  self$getBsrnFormat(...) %>% cat()
 }
 
-#' Title
+
+#' Generic function define Print method
 #'
-#' @param var
+#' Internal function.
 #'
-#' @return
-applyFormat <- function(var){
-  value <- private[[dot(var)]]$value
-  switch (private[[dot(var)]]$format,
-          "I2" = value %>% format(width = 2),
-          "I3" = NULL,
-          "I4" = value %>% format(width = 4),
-          "I5" = NULL,
-          "I9" = NULL,
-          "A1" = NULL,
-          "A5" = NULL,
-          "A8" = NULL,
-          "A15" = NULL,
-          "A18" = NULL,
-          "A20" = NULL,
-          "A25" = NULL,
-          "A30" = NULL,
-          "A38" = NULL,
-          "A40" = NULL,
-          "A50" = NULL,
-          "A80" = NULL,
-          "F7.3" = NULL,
-          "F12.4" = NULL
+genericPrint <- function(){
+  if(self$isValuesMissing())
+    cat("The object is missing value(s).\n")
+  else
+    self$showBsrnFormat()
+}
+
+
+#' Generic function to apply the right format on the value
+#'
+#' Internal function.
+#'
+#' @param varName char - Variable Name
+#'
+applyFormat <- function(varName){
+  value <- private[[dot(varName)]]$value
+  switch(
+    EXPR = private[[dot(varName)]]$format,
+    "I2" = value %>% format(width = 2),
+    "I3" = NULL,
+    "I4" = value %>% format(width = 4),
+    "I5" = NULL,
+    "I9" = NULL,
+    "A1" = NULL,
+    "A5" = NULL,
+    "A8" = NULL,
+    "A15" = NULL,
+    "A18" = NULL,
+    "A20" = NULL,
+    "A25" = NULL,
+    "A30" = NULL,
+    "A38" = NULL,
+    "A40" = NULL,
+    "A50" = NULL,
+    "A80" = NULL,
+    "F7.3" = NULL,
+    "F12.4" = NULL
   )
 }
-

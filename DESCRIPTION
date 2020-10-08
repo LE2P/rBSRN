@@ -12,4 +12,5 @@ Imports:
   magrittr,
   R6,
   stringr
+Roxygen: list(r6 = FALSE)
 RoxygenNote: 7.1.1

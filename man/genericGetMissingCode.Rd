@@ -2,16 +2,13 @@
 % Please edit documentation in R/0-utils.R
 \name{genericGetMissingCode}
 \alias{genericGetMissingCode}
-\title{Title}
+\title{Generic function to get missing code}
 \usage{
-genericGetMissingCode(var)
+genericGetMissingCode(varName)
 }
 \arguments{
-\item{var}{}
-}
-\value{
-
+\item{varName}{char - Variable Name}
 }
 \description{
-Title
+Internal function.
 }

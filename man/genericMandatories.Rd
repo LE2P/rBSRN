@@ -2,13 +2,11 @@
 % Please edit documentation in R/0-utils.R
 \name{genericMandatories}
 \alias{genericMandatories}
-\title{Title}
+\title{Generic function to list all mandatory variable}
 \usage{
 genericMandatories()
 }
-\value{
-
-}
 \description{
-Title
+Internal function.
+This function give a list of all mandatory variable names.
 }

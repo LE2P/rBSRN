@@ -2,16 +2,14 @@
 % Please edit documentation in R/0-utils.R
 \name{genericIsMissing}
 \alias{genericIsMissing}
-\title{Title}
+\title{Generic function to control missing value}
 \usage{
-genericIsMissing(var)
+genericIsMissing(varName)
 }
 \arguments{
-\item{var}{}
-}
-\value{
-
+\item{varName}{char - Variable Name}
 }
 \description{
-Title
+Internal function.
+Allow to create an R6 public method to know if private$varName$value is null (missing).
 }

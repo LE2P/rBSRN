@@ -2,163 +2,48 @@
 % Please edit documentation in R/1-LR0001.R
 \name{LR0001}
 \alias{LR0001}
-\title{R6 Class representing a logical record 0001}
+\title{R6 Class representing BSRN LR0001 (Logical Record 0001)}
+\arguments{
+\item{stationNumber}{Station identification number}
+
+\item{month}{Month of measurement}
+
+\item{year}{Year of measurement}
+
+\item{version}{Version of data}
+}
 \description{
-R6 Class representing a logical record 0001
-
-R6 Class representing a logical record 0001
-}
-\section{Methods}{
-\subsection{Public methods}{
+A LR0001 has a station number, month, year and version.
 \itemize{
-\item \href{#method-isMandatory}{\code{LR0001$isMandatory()}}
-\item \href{#method-isMissing}{\code{LR0001$isMissing()}}
-\item \href{#method-mandatories}{\code{LR0001$mandatories()}}
-\item \href{#method-missings}{\code{LR0001$missings()}}
-\item \href{#method-isValuesMissing}{\code{LR0001$isValuesMissing()}}
-\item \href{#method-setDefault}{\code{LR0001$setDefault()}}
-\item \href{#method-getMissingCode}{\code{LR0001$getMissingCode()}}
-\item \href{#method-getLabel}{\code{LR0001$getLabel()}}
-\item \href{#method-showBsrnFormat}{\code{LR0001$showBsrnFormat()}}
-\item \href{#method-print}{\code{LR0001$print()}}
-\item \href{#method-getFormatValue}{\code{LR0001$getFormatValue()}}
-\item \href{#method-getBsrnFormat}{\code{LR0001$getBsrnFormat()}}
-\item \href{#method-new}{\code{LR0001$new()}}
-\item \href{#method-clone}{\code{LR0001$clone()}}
+  \item LR0001$new() : Create a new LR0001 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getMissingCode() : Get the missing code for the variable.
+  \item getLabel() : Get the label for the variable.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
 }
 }
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isMandatory"></a>}}
-\if{latex}{\out{\hypertarget{method-isMandatory}{}}}
-\subsection{Method \code{isMandatory()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$isMandatory(var)}\if{html}{\out{</div>}}
-}
+\examples{
+lr0001 = LR0001$new(month = 12, year = 2019, version = 3)
+lr0001$stationNumber = 2
+lr0001$stationNumber
+lr0001$mandatories()
+lr0001$missings()
+lr0001$isValuesMissing()
+lr0001$setDefault("month")
+lr0001$month
+lr0001$month = 1
+lr0001$getMissingCode("month")
+lr0001$getLabel("month")
+lr0001$getBsrnFormat()
+lr0001$showBsrnFormat()
+lr0001
 
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isMissing"></a>}}
-\if{latex}{\out{\hypertarget{method-isMissing}{}}}
-\subsection{Method \code{isMissing()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$isMissing(var)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-mandatories"></a>}}
-\if{latex}{\out{\hypertarget{method-mandatories}{}}}
-\subsection{Method \code{mandatories()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$mandatories()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-missings"></a>}}
-\if{latex}{\out{\hypertarget{method-missings}{}}}
-\subsection{Method \code{missings()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$missings()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-isValuesMissing"></a>}}
-\if{latex}{\out{\hypertarget{method-isValuesMissing}{}}}
-\subsection{Method \code{isValuesMissing()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$isValuesMissing()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-setDefault"></a>}}
-\if{latex}{\out{\hypertarget{method-setDefault}{}}}
-\subsection{Method \code{setDefault()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$setDefault(var)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getMissingCode"></a>}}
-\if{latex}{\out{\hypertarget{method-getMissingCode}{}}}
-\subsection{Method \code{getMissingCode()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$getMissingCode(var)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getLabel"></a>}}
-\if{latex}{\out{\hypertarget{method-getLabel}{}}}
-\subsection{Method \code{getLabel()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$getLabel(var)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-showBsrnFormat"></a>}}
-\if{latex}{\out{\hypertarget{method-showBsrnFormat}{}}}
-\subsection{Method \code{showBsrnFormat()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$showBsrnFormat(...)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
-\subsection{Method \code{print()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$print()}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getFormatValue"></a>}}
-\if{latex}{\out{\hypertarget{method-getFormatValue}{}}}
-\subsection{Method \code{getFormatValue()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$getFormatValue(var)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-getBsrnFormat"></a>}}
-\if{latex}{\out{\hypertarget{method-getBsrnFormat}{}}}
-\subsection{Method \code{getBsrnFormat()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$getBsrnFormat(listSensor = c("2", "3", "4", "5", "21", "22", "23"))}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
-\subsection{Method \code{new()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$new(stationNumber = NULL, month = NULL, year = NULL, version = 1)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LR0001$clone(deep = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

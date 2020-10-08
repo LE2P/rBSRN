@@ -2,16 +2,14 @@
 % Please edit documentation in R/0-utils.R
 \name{genericIsMandatory}
 \alias{genericIsMandatory}
-\title{Title}
+\title{Generic function to control mandatory}
 \usage{
-genericIsMandatory(var)
+genericIsMandatory(varName)
 }
 \arguments{
-\item{var}{}
-}
-\value{
-
+\item{varName}{char - Variable Name}
 }
 \description{
-Title
+Internal function.
+Allow to create an R6 public method to know if private$varName$mandatory.
 }

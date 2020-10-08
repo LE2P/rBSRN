@@ -2,16 +2,13 @@
 % Please edit documentation in R/0-utils.R
 \name{genericShowBsrnFormat}
 \alias{genericShowBsrnFormat}
-\title{Title}
+\title{Generic function to show BSRN format (cat)}
 \usage{
 genericShowBsrnFormat(...)
 }
 \arguments{
 \item{...}{}
 }
-\value{
-
-}
 \description{
-Title
+Internal function.
 }

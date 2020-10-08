@@ -2,13 +2,12 @@
 % Please edit documentation in R/0-utils.R
 \name{genericMissings}
 \alias{genericMissings}
-\title{Title}
+\title{Generic function to list all missing vairable}
 \usage{
 genericMissings()
 }
-\value{
-
-}
 \description{
-Title
+Internal function.
+This function give a list of all missing variable names, i.e. the variable
+is empty and mandatory.
 }

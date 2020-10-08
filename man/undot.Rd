@@ -10,9 +10,10 @@ undot(varName)
 \item{varName}{char - Variable Name}
 }
 \value{
-The variable name without a dot
+The variable name without a dot.
 }
 \description{
+Internal function.
 This function remove a dot behind the variable name : ".foo" => "foo
 }
 \examples{

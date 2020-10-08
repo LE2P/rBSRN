@@ -2,7 +2,7 @@
 % Please edit documentation in R/0-utils.R
 \name{genericActiveBinding}
 \alias{genericActiveBinding}
-\title{Internal function : generic active binding}
+\title{Generic active binding}
 \usage{
 genericActiveBinding(varName)
 }
@@ -10,9 +10,10 @@ genericActiveBinding(varName)
 \item{varName}{char - Variable Name}
 }
 \value{
-Binding for the varName
+Binding for the varName.
 }
 \description{
+Internal function.
 Create binding between private variable and R6 object.
 }
 \examples{

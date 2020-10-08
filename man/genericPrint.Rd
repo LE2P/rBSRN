@@ -2,13 +2,10 @@
 % Please edit documentation in R/0-utils.R
 \name{genericPrint}
 \alias{genericPrint}
-\title{Title}
+\title{Generic function define Print method}
 \usage{
 genericPrint()
 }
-\value{
-
-}
 \description{
-Title
+Internal function.
 }

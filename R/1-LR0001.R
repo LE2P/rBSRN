@@ -1,16 +1,9 @@
-#TODO : fonction du genere le bsrn header
-#TODO : generate with changing month
-#TODO : renforcer le control validateFunction
-#TODO : Optimiser parse et eval
-#TODO : Private methodes
-#TODO : Attention au sens de lecture - les classes doivent etre lue en dernier : z dans le nom du fichie pour lecture en dernier - le mettre dans la doc
-#TODO : gestion de la sauvegarde
-
 #' LR0001 get BSRN format function
 #'
 #' @param listSensor List of sensor use in the file
 #'
 #' @return A char with the BSRN format
+#'
 lr0001GetBsrnFormat <- function(listSensor = c("2", "3", "4", "5", "21", "22", "23")){  #TODO : change this ways of list sensors
   #TODO : is justify necessary ?
   if(self$isValuesMissing()) {
@@ -40,9 +33,47 @@ lr0001GetBsrnFormat <- function(listSensor = c("2", "3", "4", "5", "21", "22", "
 }
 
 
-#' R6 Class representing a logical record 0001
+#' R6 Class representing BSRN LR0001 (Logical Record 0001)
+#'
+#' A LR0001 has a station number, month, year and version.
+#' \itemize{
+#'   \item LR0001$new() : Create a new LR0001 object
+#'   \item isMandatory() : Is variable version is mandatory ?
+#'   \item isMissing() : Is variable version is missing ?
+#'   \item isValuesMissing() : Is any value is missing ?
+#'   \item mandatories() : List of mandatory variable.
+#'   \item missings() : List of missing variables.
+#'   \item setDefault() : Set a variable to default value.
+#'   \item getMissingCode() : Get the missing code for the variable.
+#'   \item getLabel() : Get the label for the variable.
+#'   \item getFormatValue () : Get value with the correct format.
+#'   \item getBsrnFormat() : Get the BSRN format of the object.
+#'   \item showBsrnFormat() : Print the BSRN format.
+#'   \item print() : Generic print method.
+#' }
+#'
+#' @param stationNumber Station identification number
+#' @param month Month of measurement
+#' @param year Year of measurement
+#' @param version Version of data
 #'
 #' @export
+#' @examples
+#' lr0001 = LR0001$new(month = 12, year = 2019, version = 3)
+#' lr0001$stationNumber = 2
+#' lr0001$stationNumber
+#' lr0001$mandatories()
+#' lr0001$missings()
+#' lr0001$isValuesMissing()
+#' lr0001$setDefault("month")
+#' lr0001$month
+#' lr0001$month = 1
+#' lr0001$getMissingCode("month")
+#' lr0001$getLabel("month")
+#' lr0001$getBsrnFormat()
+#' lr0001$showBsrnFormat()
+#' lr0001
+#'
 LR0001 <- R6::R6Class(
   classname = "LR0001",
   private = list(
@@ -111,7 +142,7 @@ LR0001 <- R6::R6Class(
     isValuesMissing = genericIsValuesMissing,
     mandatories = genericMandatories,
     missings = genericMissings,
-    setDefault = genericGetDefault,
+    setDefault = genericSetDefault,
     getMissingCode = genericGetMissingCode,
     getLabel = genericGetLabel,
     getFormatValue = applyFormat,

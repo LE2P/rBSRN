@@ -10,9 +10,10 @@ dot(varName)
 \item{varName}{char - Variable Name}
 }
 \value{
-The variable name with a dot
+The variable name with a dot.
 }
 \description{
+Internal function.
 This function put a dot behind the variable name : "foo" => ".foo".
 }
 \examples{

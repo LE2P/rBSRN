@@ -2,16 +2,13 @@
 % Please edit documentation in R/0-utils.R
 \name{genericGetLabel}
 \alias{genericGetLabel}
-\title{Title}
+\title{Generic function to get label}
 \usage{
-genericGetLabel(var)
+genericGetLabel(varName)
 }
 \arguments{
-\item{var}{}
-}
-\value{
-
+\item{varName}{char - Variable Name}
 }
 \description{
-Title
+Internal function.
 }
