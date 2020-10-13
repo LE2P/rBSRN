@@ -6,15 +6,8 @@
 #'
 lr0001GetBsrnFormat <- function(listSensor = c("2", "3", "4", "5", "21", "22", "23")){  #TODO : change this ways of list sensors
   #TODO : is justify necessary ?
-  if(self$isValuesMissing()) {
-    message <- paste(self$missings(), collapse = ', ')
-    message <- paste('missing value(s) - ', message)
-    stop(message)
-  }
-  sin <- self$getFormatValue("stationNumber")
-  month <- self$getFormatValue("month")
-  year <- self$getFormatValue("year")
-  version <- self$getFormatValue("version")
+
+  stopIfValuesMissing(message = "LR0001", self)
 
   #TODO : Ameliorer le code pour le rendre plus clair
   listIds <- t(matrix(c(listSensor, rep(-1, 8 - length(listSensor) %% 8)), nrow = 8))
@@ -23,7 +16,7 @@ lr0001GetBsrnFormat <- function(listSensor = c("2", "3", "4", "5", "21", "22", "
 
   thisFormat <- paste(
     "*C0001",
-    " $[.2s]{sin} $[.2s]{month} $[.4s]{year} $[.2s]{version}",
+    " $[.2s]{private$.stationNumber$formatedValue} $[.2s]{private$.month$formatedValue} $[.4s]{private$.year$formatedValue} $[.2s]{private$.version$formatedValue}",
     formatListSensor,
     sep = '\n'
   )

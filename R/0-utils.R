@@ -57,8 +57,9 @@ genericActiveBinding <- function(varName){
          else {
            private$", varName, "$validateFunction(value)
            private$", varName, "$value <- value
+           private$", varName, '$formatedValue <- self$getFormatValue("', varName, '")
          }
-       }"
+       }'
     )
   ) %>% eval()
 }
@@ -85,6 +86,9 @@ genericInitialize <- function(...){
            if(!is.null(value)){
              private[[.var]]$validateFunction(value)
              private[[.var]]$value <- value
+             private[[.var]]$formatedValue <- self$getFormatValue(var)
+           } else {
+             private[[.var]]$formatedValue <- private[[.var]]$missingCode
            }
          }
        }"
@@ -185,6 +189,15 @@ genericGetLabel <- function(varName){
   private[[dot(varName)]]$label
 }
 
+#' Generic function to get formated value
+#'
+#' Internal function.
+#'
+#' @param varName char - Variable Name
+#'
+genericGetFormatedValue <- function(varName){
+  private[[dot(varName)]]$formatedValue
+}
 
 #' Generic function to show BSRN format (cat)
 #'
@@ -217,26 +230,43 @@ genericPrint <- function(){
 #'
 applyFormat <- function(varName){
   value <- private[[dot(varName)]]$value
+  # if (is.null(value)) value <- private[[dot(varName)]]$missingCode
   switch(
     EXPR = private[[dot(varName)]]$format,
     "I2" = value %>% format(width = 2),
-    "I3" = NULL,
+    "I3" = value %>% format(width = 3),
     "I4" = value %>% format(width = 4),
-    "I5" = NULL,
-    "I9" = NULL,
-    "A1" = NULL,
-    "A5" = NULL,
-    "A8" = NULL,
-    "A15" = NULL,
-    "A18" = NULL,
-    "A20" = NULL,
-    "A25" = NULL,
-    "A30" = NULL,
-    "A38" = NULL,
-    "A40" = NULL,
-    "A50" = NULL,
-    "A80" = NULL,
+    "I5" = value %>% format(width = 5),
+    "I9" = value %>% format(width = 9),
+    "A1" = value %>% format(width = 1),
+    "A5" = value %>% format(width = 5),
+    "A8" = value %>% format(width = 8),
+    "A15" = value %>% format(width = 15),
+    "A18" = value %>% format(width = 18),
+    "A20" = value %>% format(width = 20),
+    "A25" = value %>% format(width = 25),
+    "A30" = value %>% format(width = 30),
+    "A38" = value %>% format(width = 38),
+    "A40" = value %>% format(width = 40),
+    "A50" = value %>% format(width = 50),
+    "A80" = value %>% format(width = 80),
     "F7.3" = NULL,
     "F12.4" = NULL
   )
+}
+
+
+#' Stop is some mandatory variables are missing
+#'
+#' @param message A message if stop
+#' @param self self of the R6 object
+#'
+#' @export
+#'
+stopIfValuesMissing <- function(message = NULL, self){
+  if(self$isValuesMissing()) {
+    tmp <- paste(self$missings(), collapse = ', ')
+    message <- paste(message, if(!is.null(message)) '\n ', 'missing value(s) :', tmp)
+    stop(message)
+  }
 }
