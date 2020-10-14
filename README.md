@@ -46,3 +46,6 @@ lr0001 # Print the object - a.k.a. print infos.
  - gestion de la sauvegarde
  - Global variable avec bsrn var (csv) => .Rdata ?
  - Validate all validate functions
+ - By default, nothing change. Note that somewhere
+ - Valider le type en fonction de I, A ou F.. 
+ - Prévoir aussi les types vecteurs, les types dans les listes BSRN

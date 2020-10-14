@@ -337,8 +337,8 @@ getFormatValue <- function(varName){
     "A40" = value %>% format(width = 40),
     "A50" = value %>% format(width = 50),
     "A80" = value %>% format(width = 80),
-    "F7.3" = NULL,
-    "F12.4" = NULL
+    "F7.3" = value %>% format(width = 7),
+    "F12.4" = value %>% format(width = 12)
   )
 }
 

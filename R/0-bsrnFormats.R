@@ -93,10 +93,10 @@ lr0004GetBsrnFormat <- function(){
   # azimuth <- seq(0, 350, length.out = 15)
   # elevation <- round(seq(0, 89, length.out = 15))
   # TODO : Ameliorer le split (avec une fct par exemple)
-  if (is.null(private$pAzimuthElevation)){
+  if (is.null(private$.azimuthElevation)){
     AzimuthElevation <- "  -1 -1"
   } else {
-    aziEleSplit <- unlist(strsplit(strsplit(private$pAzimuthElevation, ",")[[1]],"-"))
+    aziEleSplit <- unlist(strsplit(strsplit(private$.azimuthElevation, ",")[[1]],"-"))
     azimuth <- aziEleSplit[seq(1,length(aziEleSplit), 2)]
     elevation <- aziEleSplit[seq(2,length(aziEleSplit), 2)]
     azimuth <- c(azimuth, rep(-1, 11 - length(azimuth) %% 11))
@@ -108,14 +108,14 @@ lr0004GetBsrnFormat <- function(){
   }
 
   thisFormat <- paste(
-    ifelse(private$pStationDescChange | private$pHorizonChange, "*C0004", "*U0004"),
-    ifelse(private$pStationDescChange, " $[.2s]{private$pStationDescChangeDay} $[.2s]{private$pStationDescChangeHour} $[.2s]{private$pStationDescChangeMin}", " -1 -1 -1"),
-    " $[.2s]{surface} $[.2s]{topography}",
+    ifelse(private$.stationDescChange | private$.horizonChange, "*C0004", "*U0004"),
+    ifelse(private$.stationDescChange, " $[.2s]{stationDescChangeDay} $[.2s]{stationDescChangeHour} $[.2s]{stationDescChangeMin}", " -1 -1 -1"),
+    " $[.2s]{surfaceType} $[.2s]{topographyType}",
     "$[.80s]{address}",
-    "$[.20s]{tel} $[.20s]{fax}",
-    "$[.15s]{tcpip} $[.50s]{email}",
+    "$[.20s]{telephone} $[.20s]{fax}",
+    "$[.15s]{tcpip} $[.50s]{mail}",
     " $[.7s]{latitude} $[.7s]{longitude} $[.4s]{altitude} $[.5s]{synop}",
-    ifelse(private$pHorizonChange, " $[.2s]{private$pHorizonChangeDay} $[.2s]{private$pHorizonChangeHour} $[.2s]{private$pHorizonChangeMin}", " -1 -1 -1"),
+    ifelse(private$.horizonChange, " $[.2s]{horizonChangeDay} $[.2s]{horizonChangeHour} $[.2s]{horizonChangeMin}", " -1 -1 -1"),
     AzimuthElevation,
     sep = '\n'
   )
@@ -187,21 +187,21 @@ lr0007GetBsrnFormat <- function(synop){
 
   flags <- paste(
     ifelse(is.null(synop), "N", "Y"),
-    ifelse(is.null(private$pCloudAmount), "N", "Y"),
-    ifelse(is.null(private$pCloudBaseHeight), "N", "Y"),
-    ifelse(is.null(private$pCloudLiquid), "N", "Y"),
-    ifelse(is.null(private$pCloudAerosol), "N", "Y"),
-    ifelse(is.null(private$pWaterVapour), "N", "Y")
+    ifelse(is.null(private$.cloudAmount), "N", "Y"),
+    ifelse(is.null(private$.cloudBaseHeight), "N", "Y"),
+    ifelse(is.null(private$.cloudLiquid), "N", "Y"),
+    ifelse(is.null(private$.cloudAerosol), "N", "Y"),
+    ifelse(is.null(private$.waterVapour), "N", "Y")
   )
 
   thisFormat <- paste(
-    ifelse(private$pChange, "*C0007", "*U0007"),
-    ifelse(private$pChange, " $[.2s]{private$pChangeDay} $[.2s]{private$pChangeHour} $[.2s]{private$pChangeMin}", " -1 -1 -1"),
-    "$[.80s]{CloudAmount}",
-    "$[.80s]{CloudBaseHeight}",
-    "$[.80s]{CloudLiquid}",
-    "$[.80s]{CloudAerosol}",
-    "$[.80s]{WaterVapour}",
+    ifelse(private$.change, "*C0007", "*U0007"),
+    ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"),
+    "$[.80s]{cloudAmount}",
+    "$[.80s]{cloudBaseHeight}",
+    "$[.80s]{cloudLiquid}",
+    "$[.80s]{cloudAerosol}",
+    "$[.80s]{waterVapour}",
     flags,
     sep = '\n'
   )
@@ -215,7 +215,7 @@ lr0007GetBsrnFormat <- function(synop){
 #'
 #' @return A char with the BSRN format
 #'
-lr0008GetBsrnFormat <- function(change = FALSE, printLr = FALSE){
+lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE){
 
   stopIfValuesMissing(message = "LR0008", self)
 
@@ -223,21 +223,21 @@ lr0008GetBsrnFormat <- function(change = FALSE, printLr = FALSE){
     assign(varName, self$getFormatValue(varName))
 
   thisFormat <- paste(
-    paste(ifelse(private$pChange, " $[.2s]{private$pChangeDay} $[.2s]{private$pChangeHour} $[.2s]{private$pChangeMin}", " -1 -1 -1"), ifelse(private$pOperating, "Y", "N")),
-    "$[.30s]{Manufacturer} $[.15s]{Model} $[.18s]{SerialNumber} $[.8s]{DateOfPurchase} $[.5s]{Identification}",
-    "$[.80s]{Remarks}",
-    " $[2s]{PyrgeometerBody} $[2s]{PyrgeometerDome} $[.7s]{WavelenghBand1} $[.7s]{BandwidthBand1} $[.7s]{WavelenghBand2} $[.7s]{BandwidthBand2} $[.7s]{WavelenghBand3} $[.7s]{BandwidthBand3} $[.2s]{MaxZenithAngle} $[.2s]{MinSpectral}",
-    "$[.30s]{Location} $[.40s]{Person}",
-    "$[.8s]{StartOfCalibPeriod1} $[.8s]{EndOfCalibPeriod1} $[.2s]{NumOfComp1} $[.12s]{MeanCalibCoeff1} $[.12s]{StdErrorCalibCoeff1}",
-    "$[.8s]{StartOfCalibPeriod2} $[.8s]{EndOfCalibPeriod2} $[.2s]{NumOfComp2} $[.12s]{MeanCalibCoeff2} $[.12s]{StdErrorCalibCoeff2}",
-    "$[.8s]{StartOfCalibPeriod3} $[.8s]{EndOfCalibPeriod3} $[.2s]{NumOfComp3} $[.12s]{MeanCalibCoeff3} $[.12s]{StdErrorCalibCoeff3}",
-    "$[.80s]{RemarksOnCalib1}",
-    "$[.80s]{RemarksOnCalib2}",
+    paste(ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"), ifelse(private$.operating, "Y", "N")),
+    "$[.30s]{manufacturer} $[.15s]{model} $[.18s]{serialNumber} $[.8s]{dateOfPurchase} $[.5s]{identification}",
+    "$[.80s]{remarks}",
+    " $[2s]{pyrgeometerBody} $[2s]{pyrgeometerDome} $[.7s]{wavelenghBand1} $[.7s]{bandwidthBand1} $[.7s]{wavelenghBand2} $[.7s]{bandwidthBand2} $[.7s]{wavelenghBand3} $[.7s]{bandwidthBand3} $[.2s]{maxZenithAngle} $[.2s]{minSpectral}",
+    "$[.30s]{location} $[.40s]{person}",
+    "$[.8s]{startOfCalibPeriod1} $[.8s]{endOfCalibPeriod1} $[.2s]{numOfComp1} $[.12s]{meanCalibCoeff1} $[.12s]{stdErrorCalibCoeff1}",
+    "$[.8s]{startOfCalibPeriod2} $[.8s]{endOfCalibPeriod2} $[.2s]{numOfComp2} $[.12s]{meanCalibCoeff2} $[.12s]{stdErrorCalibCoeff2}",
+    "$[.8s]{startOfCalibPeriod3} $[.8s]{endOfCalibPeriod3} $[.2s]{numOfComp3} $[.12s]{meanCalibCoeff3} $[.12s]{stdErrorCalibCoeff3}",
+    "$[.80s]{remarksOnCalib1}",
+    "$[.80s]{remarksOnCalib2}",
     sep = '\n'
   )
 
   if (printLr)
-    thisFormat <- paste(ifelse(change, "*C0008", "*U0008"), thisFormat, sep = "\n")
+    thisFormat <- paste(ifelse(anyChange, "*C0008", "*U0008"), thisFormat, sep = "\n")
 
   res <- str_interp(thisFormat)
   return(res)
