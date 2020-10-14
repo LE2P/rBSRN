@@ -9,6 +9,7 @@
 #'
 #' @examples
 #' dot('foo')
+#'
 dot <- function(varName) {
   if(substr(varName, 1, 1) == ".")
     return(varName)
@@ -28,6 +29,7 @@ dot <- function(varName) {
 #'
 #' @examples
 #' undot(".foo")
+#'
 undot <- function(varName){
   if(substr(varName, 1, 1) == ".")
     return(substr(varName, 2, nchar(varName)))
@@ -36,10 +38,46 @@ undot <- function(varName){
 }
 
 
-#' Generic active binding
+#' Return parameters for a specific logical record
+#'
+#' @param lr char logical record ("LR0001", "LR0002", ...)
+#'
+#' @return params list
+#'
+#' @examples
+#' getParams("LR0001")
+getParams <- function(lr){
+  p <- read.csv("./data/bsrnparams.csv")
+  p <- p[p$lr == lr, ]
+  params <- apply(p[, -1], 1, as.list)
+  names(params) <- p$name
+  for(n in names(params))
+    params[[n]]$validateFunction <- get(params[[n]]$validateFunction)
+  return(params)
+}
+
+#' Return privates variables for a specific logical record
+#'
+#' @param lr char logical record ("LR0001", "LR0002", ...)
+#'
+#' @return list of private variables
+#'
+getPrivateVars <- function(lr){
+  privatesVars <- NULL
+  ps <- getParams(lr)
+  for (p in ps){
+    privatesVars <- paste0(privatesVars, ".", p$name, ' = ', p$defaultValue, ',\n')
+  }
+  privatesVars <- paste0(privatesVars, '.params = getParams("', lr, '")')
+  vars <- eval(parse(text=paste0('list(',privatesVars,')')))
+  return(vars)
+}
+
+
+#' Generic read and write active binding
 #'
 #' Internal function.
-#' Create binding between private variable and R6 object.
+#' Create read and write binding between private variable and R6 object.
 #'
 #' @param varName char - Variable Name
 #'
@@ -47,21 +85,63 @@ undot <- function(varName){
 #'
 #' @examples
 #' \dontrun{
-#' username = genericActiveBinding(".username")
+#' username = rw_ActiveBinding("username")
 #' }
-genericActiveBinding <- function(varName){
+#'
+rw_ActiveBinding <- function(varName){
   parse(
     text = paste0(
       "function(value){
-         if (missing(value)) return(private$", varName, "$value)
+         if (missing(value)) return(private$", dot(varName), ")
          else {
-           private$", varName, "$validateFunction(value)
-           private$", varName, "$value <- value
-           private$", varName, '$formatedValue <- self$getFormatValue("', varName, '")
+           private$.params$", varName, "$validateFunction(value)
+           private$", dot(varName), " <- value
+         }
+       }"
+    )
+  ) %>% eval()
+}
+
+#' Generic read only active binding
+#'
+#' Internal function.
+#' Create read and write binding between private variable and R6 object.
+#'
+#' @param varName char - Variable Name
+#'
+#' @return Binding for the varName.
+#'
+#' @examples
+#' \dontrun{
+#' username = r__ActiveBinding("username")
+#' }
+#'
+r__ActiveBinding <- function(varName){
+  message <- paste("Can't change the", varName)
+  parse(
+    text = paste0(
+      "function(value){
+         if (missing(value)) return(private$", dot(varName), ')
+         else {
+            stop("', message, '", call. = F)
          }
        }'
     )
   ) %>% eval()
+}
+
+#' Return actives bindings for a specific logical record
+#'
+#' @param lr char logical record ("LR0001", "LR0002", ...)
+#'
+#' @return list of actives bindings
+#'
+getActiveBindings <- function(lr){
+  vars <- names(getParams(lr))
+  activesBindings <- list()
+  for(v in vars) activesBindings[[v]] <- rw_ActiveBinding(v)
+  activesBindings$params <- r__ActiveBinding("params")
+  return(activesBindings)
 }
 
 
@@ -70,32 +150,25 @@ genericActiveBinding <- function(varName){
 #' Internal function.
 #' Create an initialize R6 function (see R6 documentation).
 #'
-#' @param ... list of function args needed for the initialize
+#' @param vars char args needed for the initialize (R notation)
 #'
 #' @return Initialize function.
 #'
-genericInitialize <- function(...){
-  dots <- list(...)
-  thisArgs <- paste(names(dots), "=", dots, collapse = ", ")
+genericInitialize <- function(vars){
   parse(
     text = paste0(
-      "function(", thisArgs, "){
+      "function(", vars, "){
          for (var in ls()){
            value <- get(var)
-           .var <- dot(var)
            if(!is.null(value)){
-             private[[.var]]$validateFunction(value)
-             private[[.var]]$value <- value
-             private[[.var]]$formatedValue <- self$getFormatValue(var)
-           } else {
-             private[[.var]]$formatedValue <- private[[.var]]$missingCode
+             private$.params[[var]]$validateFunction(value)
+             private[[dot(var)]] <- value
            }
          }
-       }"
+      }"
     )
   ) %>% eval()
 }
-
 
 #' Generic function to control mandatory
 #'
@@ -105,7 +178,7 @@ genericInitialize <- function(...){
 #' @param varName char - Variable Name
 #'
 genericIsMandatory <- function(varName){
-  private[[dot(varName)]]$mandatory
+  private$.params[[varName]]$mandatory
 }
 
 
@@ -117,7 +190,7 @@ genericIsMandatory <- function(varName){
 #' @param varName char - Variable Name
 #'
 genericIsMissing <- function(varName){
-  is.null(private[[dot(varName)]]$value)
+  is.null(private[[dot(varName)]])
 }
 
 
@@ -127,7 +200,7 @@ genericIsMissing <- function(varName){
 #' This function give a list of all mandatory variable names.
 #'
 genericMandatories <- function(){
-    lapply(names(private), function(varName) if (self$isMandatory(varName)) undot(varName)) %>% unlist()
+    lapply(private$.params, function(ele) if(ele$mandatory) ele$name) %>% unlist()
 }
 
 
@@ -139,11 +212,8 @@ genericMandatories <- function(){
 #'
 genericMissings <- function(){
   lapply(
-    names(private),
-    function(varName){
-      if(self$isMandatory(varName) & self$isMissing(varName))
-        undot(varName)
-    }
+    self$mandatories(),
+    function(varName) if(self$isMissing(varName)) varName
   ) %>% unlist()
 }
 
@@ -166,38 +236,9 @@ genericIsValuesMissing = function(){
 #' @param varName char - Variable Name
 #'
 genericSetDefault = function(varName){
-  private[[dot(varName)]]$value <- private[[dot(varName)]]$defaultValue
+  private[[dot(varName)]] <- private$.param[[varName]]$defaultValue
 }
 
-#' Generic function to get missing code
-#'
-#' Internal function.
-#'
-#' @param varName char - Variable Name
-#'
-genericGetMissingCode <- function(varName){
-  private[[dot(varName)]]$missingCode
-}
-
-#' Generic function to get label
-#'
-#' Internal function.
-#'
-#' @param varName char - Variable Name
-#'
-genericGetLabel <- function(varName){
-  private[[dot(varName)]]$label
-}
-
-#' Generic function to get formated value
-#'
-#' Internal function.
-#'
-#' @param varName char - Variable Name
-#'
-genericGetFormatedValue <- function(varName){
-  private[[dot(varName)]]$formatedValue
-}
 
 #' Generic function to show BSRN format (cat)
 #'
@@ -221,6 +262,41 @@ genericPrint <- function(){
     self$showBsrnFormat()
 }
 
+#' Return public methods for a specific logical record
+#'
+#' @param lr char logical record ("LR0001", "LR0002", ...)
+#'
+#' @return list of private variables
+#'
+getPublicMethods <- function(lr){
+  ps <- getParams(lr)
+  vars <- lapply(ps, function(ele) paste(ele$name, "=", ele$defaultValue)) %>%
+    paste(collapse = ", ")
+  publicMethods <- list(
+    initialize = genericInitialize(vars),
+    isMandatory = genericIsMandatory,
+    isMissing = genericIsMissing,
+    isValuesMissing = genericIsValuesMissing,
+    mandatories = genericMandatories,
+    missings = genericMissings,
+    setDefault = genericSetDefault,
+    getFormatValue = getFormatValue,
+    getBsrnFormat = get(paste0(tolower(lr), "GetBsrnFormat")),
+    showBsrnFormat = genericShowBsrnFormat,
+    print = genericPrint
+  )
+  return(publicMethods)
+}
+
+
+#' Generic function to validate data
+#'
+#' Internal function.
+#'
+genericValidateFunction <- function(value){
+  stopifnot(TRUE)
+}
+
 
 #' Generic function to apply the right format on the value
 #'
@@ -228,11 +304,11 @@ genericPrint <- function(){
 #'
 #' @param varName char - Variable Name
 #'
-applyFormat <- function(varName){
-  value <- private[[dot(varName)]]$value
-  # if (is.null(value)) value <- private[[dot(varName)]]$missingCode
+getFormatValue <- function(varName){
+  value <- private[[dot(varName)]]
+  if (is.null(value)) value <- private$.params[[varName]]$missingCode
   switch(
-    EXPR = private[[dot(varName)]]$format,
+    EXPR = private$.params[[varName]]$format,
     "I2" = value %>% format(width = 2),
     "I3" = value %>% format(width = 3),
     "I4" = value %>% format(width = 4),
@@ -270,3 +346,5 @@ stopIfValuesMissing <- function(message = NULL, self){
     stop(message)
   }
 }
+
+

@@ -8,42 +8,17 @@ mySplit <- function(x, var){
 
 lowercc <- function(char) paste0(tolower(substr(char,1,1)), substr(char,2,nchar(char)))
 
+lr <- "LR0002"
+dd <- getParams(lr)
 
-bsrnInfos <- read.csv('../BSRNFileCreator/data/bsrnAppVars.csv', sep = ";", stringsAsFactors = F) %>%  as.data.frame()
-ns <- names(bsrnInfos)
-bsrnInfos$varName <- bsrnInfos$varName %>% lowercc()
-unique(bsrnInfos$group)
-bool <- bsrnInfos$group == "textBox"
-bsrnInfos$group[bool] <- "character"
-bool <- bsrnInfos$group == "list"
-bsrnInfos$group[bool] <- "numeric"
-bool <- bsrnInfos$group == "blockDateChange"
-bsrnInfos$group[bool] <- "numeric"
-
-
-lr <- "lr0003"
-
-for (i in which(bsrnInfos$lr == lr)){
+for (d in dd){
   paste0(
-    "#' @param ", bsrnInfos$varName[i], ' ', bsrnInfos$label[i], '\n'
+    "#' @param ", d$name, ' ', d$label, '\n'
   ) %>%  cat()
 }
 
+# getPrivatesVar("LR0001")
 
-for (i in which(bsrnInfos$lr == lr)){
-  paste0(
-    ".", bsrnInfos$varName[i], ' = list(\nvalue = ', bsrnInfos$defaultValue[i],
-    ',\n name = "', bsrnInfos$varName[i], '"',
-    ',\n type = "', bsrnInfos$group[i], '"',
-    ',\n label = "', bsrnInfos$label[i], '"',
-    ',\n missingCode = "', bsrnInfos$missingCode[i], '"',
-    ',\n justifyRight = ', bsrnInfos$justifyRight[i],
-    ',\n format = "', bsrnInfos$format[i], '"',
-    ',\n mandatory = ', bsrnInfos$mandatory[i],
-    ',\n defaultValue = ', bsrnInfos$defaultValue[i],
-    ',\n validateFunction = function(value) stopifnot(TRUE)', '\n), \n'
-  ) %>%  cat()
-}
 
 for (i in which(bsrnInfos$lr == lr)){
   paste0(

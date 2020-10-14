@@ -9,3 +9,4 @@ An R package to facilitate BSRN header generation
  - Private methods
  - Attention au sens de lecture, les classes doivent etre lues en dernier, le mettre dans la doc
  - gestion de la sauvegarde
+ - Global variable avec bsrn var (csv) => .Rdata ?
