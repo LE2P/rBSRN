@@ -50,52 +50,48 @@ undot <- function(varName){
 #' username = genericActiveBinding(".username")
 #' }
 genericActiveBinding <- function(varName){
+  message <- paste("Can't change the", varName)
+  varName <- dot(varName)
   parse(
     text = paste0(
       "function(value){
-         if (missing(value)) return(private$", varName, "$value)
+         if (missing(value)) return(private$", varName, ')
          else {
-           private$", varName, "$validateFunction(value)
-           private$", varName, "$value <- value
-           private$", varName, '$formatedValue <- self$getFormatValue("', varName, '")
+           stop("', message, '", call. = F)
          }
        }'
     )
   ) %>% eval()
 }
 
-
-#' Generic function to create initialize
+#' Generic active binding for value
 #'
 #' Internal function.
-#' Create an initialize R6 function (see R6 documentation).
+#' Create binding between private variable and R6 object.
 #'
-#' @param ... list of function args needed for the initialize
+#' @param varName char - Variable Name
 #'
-#' @return Initialize function.
+#' @return Binding for the varName.
 #'
-genericInitialize <- function(...){
-  dots <- list(...)
-  thisArgs <- paste(names(dots), "=", dots, collapse = ", ")
+#' @examples
+#' \dontrun{
+#' username = genericValueActiveBinding(".username")
+#' }
+genericValueActiveBinding <- function(varName){
+  varName <- dot(varName)
   parse(
     text = paste0(
-      "function(", thisArgs, "){
-         for (var in ls()){
-           value <- get(var)
-           .var <- dot(var)
-           if(!is.null(value)){
-             private[[.var]]$validateFunction(value)
-             private[[.var]]$value <- value
-             private[[.var]]$formatedValue <- self$getFormatValue(var)
-           } else {
-             private[[.var]]$formatedValue <- private[[.var]]$missingCode
-           }
+      "function(value){
+         if (missing(value)) return(private$", varName, ")
+         else {
+           # private$", varName, "$validateFunction(value)
+           private$", varName, " <- value
+           private$", varName, ' <- self$getFormatValue("', varName, '")
          }
-       }"
+       }'
     )
   ) %>% eval()
 }
-
 
 #' Generic function to control mandatory
 #'
@@ -228,31 +224,8 @@ genericPrint <- function(){
 #'
 #' @param varName char - Variable Name
 #'
-applyFormat <- function(varName){
-  value <- private[[dot(varName)]]$value
-  # if (is.null(value)) value <- private[[dot(varName)]]$missingCode
-  switch(
-    EXPR = private[[dot(varName)]]$format,
-    "I2" = value %>% format(width = 2),
-    "I3" = value %>% format(width = 3),
-    "I4" = value %>% format(width = 4),
-    "I5" = value %>% format(width = 5),
-    "I9" = value %>% format(width = 9),
-    "A1" = value %>% format(width = 1),
-    "A5" = value %>% format(width = 5),
-    "A8" = value %>% format(width = 8),
-    "A15" = value %>% format(width = 15),
-    "A18" = value %>% format(width = 18),
-    "A20" = value %>% format(width = 20),
-    "A25" = value %>% format(width = 25),
-    "A30" = value %>% format(width = 30),
-    "A38" = value %>% format(width = 38),
-    "A40" = value %>% format(width = 40),
-    "A50" = value %>% format(width = 50),
-    "A80" = value %>% format(width = 80),
-    "F7.3" = NULL,
-    "F12.4" = NULL
-  )
+applyFormat <- function(){
+
 }
 
 

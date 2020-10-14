@@ -1,6 +1,12 @@
 rm(list = ls())
 library(rBSRN)
 
+test = round
+test = BSRNVAR$new(name = "test", type = "bool", label = "Test Label", missingCode = "xxx", format = "I4")
+
+test$value = 12
+test$format
+
 ls(getNamespace("rBSRN"), all.names=FALSE) # Shows unhidden functions
 ls(getNamespace("rBSRN"), all.names=TRUE) # Shows all functions.
 
@@ -56,8 +62,13 @@ lr0002
 
 rBSRN::LR0003
 lr0003 = LR0003$new(message = "Hello world")
-lr0003$message <- "This is a message"
+lr0003$message <- "1"
 lr0003$message
+lr0003$label("message")
+
+
+
+lr0003$message$label <- "test"
 lr0003$mandatories()
 lr0003$missings()
 lr0003$isValuesMissing()

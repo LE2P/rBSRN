@@ -4,7 +4,7 @@
 \alias{applyFormat}
 \title{Generic function to apply the right format on the value}
 \usage{
-applyFormat(varName)
+applyFormat()
 }
 \arguments{
 \item{varName}{char - Variable Name}

@@ -52,8 +52,7 @@ lr0003GetBsrnFormat <- function(){
 LR0003 <- R6::R6Class(
   classname = "LR0003",
   private = list(
-    .message = list(
-      value = NULL,
+    .message = BSRNVAR$new(
       name = "message",
       type = "character",
       label = "Messages not to be inserted in the BSRN database",
@@ -61,26 +60,24 @@ LR0003 <- R6::R6Class(
       justifyRight = FALSE,
       format = "A80",
       mandatory = FALSE,
-      defaultValue = NULL,
-      validateFunction = function(value) stopifnot(TRUE)
+      validateFunction = function(value) stopifnot(is.numeric(value))
     )
   ),
   active = list(
-    message = genericActiveBinding(".message")
+    message = function(ele) {if (missing(ele)) {private$.message$value} else {print("coucouc"); print(private$.message); private$.message$value <- ele}}
   ),
   public = list(
-    initialize = genericInitialize(message = NULL),
-    isMandatory = genericIsMandatory,
-    isMissing = genericIsMissing,
-    isValuesMissing = genericIsValuesMissing,
-    mandatories = genericMandatories,
-    missings = genericMissings,
-    setDefault = genericSetDefault,
-    getMissingCode = genericGetMissingCode,
-    getLabel = genericGetLabel,
-    getFormatValue = applyFormat,
-    getBsrnFormat = lr0003GetBsrnFormat,
-    showBsrnFormat = genericShowBsrnFormat,
-    print = genericPrint
+    initialize = function(message = NULL) if(!is.null(message)) private$.message$value <- message,
+    label =  function(ele) private[[dot(ele)]]$label
+    # isValuesMissing = genericIsValuesMissing,
+    # mandatories = genericMandatories,
+    # missings = genericMissings,
+    # setDefault = genericSetDefault,
+    # getMissingCode = genericGetMissingCode,
+    # getLabel = genericGetLabel,
+    # getFormatValue = applyFormat,
+    # getBsrnFormat = lr0003GetBsrnFormat,
+    # showBsrnFormat = genericShowBsrnFormat,
+    # print = genericPrint
   )
 )
