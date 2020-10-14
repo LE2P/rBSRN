@@ -8,6 +8,8 @@
 }
 \description{
 A LR0003 contain a message.
+}
+\details{
 \itemize{
   \item LR0003$new() : Create a new LR0003 object
   \item isMandatory() : Is variable version is mandatory ?

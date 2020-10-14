@@ -18,29 +18,3 @@ for (d in dd){
 }
 
 # getPrivatesVar("LR0001")
-
-
-for (i in which(bsrnInfos$lr == lr)){
-  paste0(
-    bsrnInfos$varName[i], ' = genericActiveBinding(".', bsrnInfos$varName[i], '"),\n'
-  ) %>%  cat()
-}
-
-for (i in which(bsrnInfos$lr == lr)){
-  paste0(
-    bsrnInfos$varName[i], ' = ', bsrnInfos$defaultValue[i], ', '
-  ) %>%  cat()
-}
-
-
-
-
-bool <- bsrnInfos$lr == "lr0002"
-gvl <- mySplit(bsrnInfos[bool, -1], "varName")
-# gvl <- lapply(gvl, function(x) mySplit(x, "varName"))
-toJSON(gvl$DeputyAddress, pretty = T)
-
-
-w <- gvl$Version
-cat(paste0(names(w), ' = "', w, '"'), sep = ',\n')
-

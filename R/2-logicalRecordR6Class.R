@@ -115,6 +115,7 @@ LR0002 <- R6::R6Class(
 #' R6 Class representing BSRN LR0003 (Logical Record 0003)
 #'
 #' A LR0003 contain a message.
+#'
 #' \itemize{
 #'   \item LR0003$new() : Create a new LR0003 object
 #'   \item isMandatory() : Is variable version is mandatory ?
@@ -157,3 +158,66 @@ LR0003 <- R6::R6Class(
   public = getPublicMethods("LR0003")
 )
 
+#' R6 Class representing BSRN LR0004 (Logical Record 0004)
+#'
+#' A LR0004 contain object.
+#'
+#' @export
+LR0004 <- R6::R6Class(
+  classname = "LR0004",
+  private = getPrivateVars("LR0004"),
+  active = getActiveBindings("LR0004"),
+  public = getPublicMethods("LR0004")
+)
+
+
+#' R6 Class representing BSRN LR0005 (Logical Record 0005)
+#'
+#' A LR0005 contain object.
+#'
+#' @export
+LR0005 <- R6::R6Class(
+  classname = "LR0005",
+  private = getPrivateVars("LR0005"),
+  active = getActiveBindings("LR0005"),
+  public = getPublicMethods("LR0005")
+)
+
+
+#' R6 Class representing BSRN LR0006 (Logical Record 0006)
+#'
+#' A LR0006 contain object.
+#'
+#' @export
+LR0006 <- R6::R6Class(
+  classname = "LR0006",
+  private = getPrivateVars("LR0006"),
+  active = getActiveBindings("LR0006"),
+  public = getPublicMethods("LR0006")
+)
+
+
+#' R6 Class representing BSRN LR0007 (Logical Record 0007)
+#'
+#' A LR0007 contain object.
+#'
+#' @export
+LR0007 <- R6::R6Class(
+  classname = "LR0007",
+  private = getPrivateVars("LR0007"),
+  active = getActiveBindings("LR0007"),
+  public = getPublicMethods("LR0007")
+)
+
+
+#' R6 Class representing BSRN LR0008 (Logical Record 0008)
+#'
+#' A LR0008 contain object.
+#'
+#' @export
+LR0008 <- R6::R6Class(
+  classname = "LR0008",
+  private = getPrivateVars("LR0008"),
+  active = getActiveBindings("LR0008"),
+  public = getPublicMethods("LR0008")
+)

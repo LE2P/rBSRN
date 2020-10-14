@@ -56,6 +56,7 @@ getParams <- function(lr){
   return(params)
 }
 
+
 #' Return privates variables for a specific logical record
 #'
 #' @param lr char logical record ("LR0001", "LR0002", ...)
@@ -102,6 +103,7 @@ rw_ActiveBinding <- function(varName){
   ) %>% eval()
 }
 
+
 #' Generic read only active binding
 #'
 #' Internal function.
@@ -129,6 +131,7 @@ r__ActiveBinding <- function(varName){
     )
   ) %>% eval()
 }
+
 
 #' Return actives bindings for a specific logical record
 #'
@@ -169,6 +172,7 @@ genericInitialize <- function(vars){
     )
   ) %>% eval()
 }
+
 
 #' Generic function to control mandatory
 #'
@@ -256,11 +260,18 @@ genericShowBsrnFormat <- function(...){
 #' Internal function.
 #'
 genericPrint <- function(){
+  message <- ""
   if(self$isValuesMissing())
-    cat("The object is missing value(s).\n")
-  else
-    self$showBsrnFormat()
+    message <- paste0(message, "WARNING : The object is missing value(s).\n")
+  vars <- names(private$.params)
+  mVars <- self$mandatories()
+  for(v in vars)
+    message <- paste0(
+      message, if(v %in% mVars) "[mandatory] " else "[optional] ",
+      v, ' (', private$.params[[v]]$label, ") : ", private[[dot(v)]], "\n")
+  cat(message)
 }
+
 
 #' Return public methods for a specific logical record
 #'
@@ -337,8 +348,6 @@ getFormatValue <- function(varName){
 #' @param message A message if stop
 #' @param self self of the R6 object
 #'
-#' @export
-#'
 stopIfValuesMissing <- function(message = NULL, self){
   if(self$isValuesMissing()) {
     tmp <- paste(self$missings(), collapse = ', ')
@@ -346,5 +355,4 @@ stopIfValuesMissing <- function(message = NULL, self){
     stop(message)
   }
 }
-
 
