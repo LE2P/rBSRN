@@ -248,7 +248,7 @@ lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE){
 #'
 #' @return A char with the BSRN format
 #'
-lr0009GetBsrnFormat <- function(change = FALSE, printLr = FALSE){
+lr0009GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE){
 
   stopIfValuesMissing(message = "LR0009", self)
 
@@ -256,10 +256,10 @@ lr0009GetBsrnFormat <- function(change = FALSE, printLr = FALSE){
     assign(varName, self$getFormatValue(varName))
 
   thisFormat <- paste0(
-    if (printLr) ifelse(change, "*C0009\n", "*U0009\n"),
+    if (printLr) ifelse(anyChange, "*C0009\n", "*U0009\n"),
     paste(
-      ifelse(private$pChange, " $[.2s]{private$pChangeDay} $[.2s]{private$pChangeHour} $[.2s]{private$pChangeMin}", " -1 -1 -1"),
-      "$[.9s]{RadiationQuantityMeasured} $[.5s]{Identification} $[.2s]{NumOfBand}"
+      ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"),
+      "$[.9s]{radiationQuantityMeasured} $[.5s]{identification} $[.2s]{numOfBand}"
     )
   )
 

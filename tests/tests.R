@@ -1,9 +1,6 @@
 rm(list = ls())
 library(rBSRN)
 
-ls(getNamespace("rBSRN"), all.names=FALSE) # Shows unhidden functions
-ls(getNamespace("rBSRN"), all.names=TRUE) # Shows all functions.
-
 # LR0001 ------------------------------------------------------------------
 lr0001 = LR0001$new(stationNumber = 82, month = 7, year = 2020, version = 1)
 lr0001
@@ -26,7 +23,7 @@ lr0002
 lr0002$showBsrnFormat()
 
 # LR0003 ------------------------------------------------------------------
-lr0003 = LR0003$new(message = "")
+lr0003 = LR0003$new(message = "Some test")
 lr0003
 lr0003$showBsrnFormat()
 
@@ -66,7 +63,7 @@ lr0008 = LR0008$new(
   manufacturer = "Kipp & Zonen",
   model = "CMP 22",
   serialNumber = "140114",
-  identification = "82001",
+  identification = 82001,
   radiationQuantityMeasured = 2, # TODO : mettre dans LR0009
   pyrgeometerDome = 2,
   location = "PMOD-WRC",
@@ -74,8 +71,8 @@ lr0008 = LR0008$new(
   startOfCalibPeriod1 = "05/16/16",
   endOfCalibPeriod1 = "06/30/17",
   numOfComp1 = 1,
-  meanCalibCoeff1 = "8.8000",
-  stdErrorCalibCoeff1 = "0.0600",
+  meanCalibCoeff1 = 8.8000,
+  stdErrorCalibCoeff1 = 0.0600,
   remarksOnCalib1 = "uV/W.m2"
 )
 lr0008

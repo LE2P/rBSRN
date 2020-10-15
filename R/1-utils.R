@@ -47,7 +47,7 @@ undot <- function(varName){
 #' @examples
 #' getParams("LR0001")
 getParams <- function(lr){
-  p <- read.csv("./data/bsrnparams.csv")
+  p <- read.csv("./data/bsrnparams.csv") # TODO : replace by and .rda file
   p <- p[p$lr == lr, ]
   params <- apply(p[, -1], 1, as.list)
   names(params) <- p$name
@@ -95,7 +95,8 @@ rw_ActiveBinding <- function(varName){
       "function(value){
          if (missing(value)) return(private$", dot(varName), ")
          else {
-           private$.params$", varName, "$validateFunction(value)
+           err <- private$.params$", varName, "$validateFunction(value)
+           if(!is.null(err)) stop(paste(", varName, ", err$message), call. = F)
            private$", dot(varName), " <- value
          }
        }"
@@ -164,7 +165,8 @@ genericInitialize <- function(vars){
          for (var in ls()){
            value <- get(var)
            if(!is.null(value)){
-             private$.params[[var]]$validateFunction(value)
+             err <- private$.params[[var]]$validateFunction(value)
+             if(!is.null(err)) stop(paste(var, err$message), call. = F)
              private[[dot(var)]] <- value
            }
          }
@@ -320,14 +322,16 @@ getFormatValue <- function(varName){
   if (is.null(value)) value <- private$.params[[varName]]$missingCode
   switch(
     EXPR = private$.params[[varName]]$format,
-    "I2" = value %>% format(width = 2),
-    "I3" = value %>% format(width = 3),
-    "I4" = value %>% format(width = 4),
-    "I5" = value %>% format(width = 5),
-    "I9" = value %>% format(width = 9),
-    "A1" = value %>% format(width = 1),
-    "A5" = value %>% format(width = 5),
-    "A8" = value %>% format(width = 8),
+    "L"   = if (value) "Y" else "N", # TODO : TRUE FORMAT "A1"
+    "I2"  = value %>% format(width = 2),
+    "I3"  = value %>% format(width = 3),
+    "I4"  = value %>% format(width = 4),
+    "I5"  = value %>% format(width = 5),
+    "I9"  = value %>% format(width = 9),
+    "A"   = value %>% str_wrap(width = 80),
+    "A1"  = value %>% format(width = 1),
+    "A5"  = value %>% format(width = 5),
+    "A8"  = value %>% format(width = 8),
     "A15" = value %>% format(width = 15),
     "A18" = value %>% format(width = 18),
     "A20" = value %>% format(width = 20),
@@ -337,7 +341,7 @@ getFormatValue <- function(varName){
     "A40" = value %>% format(width = 40),
     "A50" = value %>% format(width = 50),
     "A80" = value %>% format(width = 80),
-    "F7.3" = value %>% format(width = 7),
+    "F7.3" = value %>% format(width = 7), # TODO : mettre le bon format en fixed point
     "F12.4" = value %>% format(width = 12)
   )
 }
@@ -352,7 +356,7 @@ stopIfValuesMissing <- function(message = NULL, self){
   if(self$isValuesMissing()) {
     tmp <- paste(self$missings(), collapse = ', ')
     message <- paste(message, if(!is.null(message)) '\n ', 'missing value(s) :', tmp)
-    stop(message)
+    stop(message, call. = F)
   }
 }
 
