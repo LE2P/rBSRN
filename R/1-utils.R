@@ -47,7 +47,7 @@ undot <- function(varName){
 #' @examples
 #' getParams("LR0001")
 getParams <- function(lr){
-  p <- read.csv("./data/bsrnparams.csv") # TODO : replace by and .rda file
+  data("A1_formats"); p <- A1_formats
   p <- p[p$lr == lr, ]
   params <- apply(p[, -1], 1, as.list)
   names(params) <- p$name

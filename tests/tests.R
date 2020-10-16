@@ -43,13 +43,13 @@ lr0004
 lr0004$showBsrnFormat()
 
 # LR0005 ------------------------------------------------------------------
-# A FAIRE
+# TODO : valider cette classe
 lr0005 = LR0005$new()
 lr0005
 lr0005$showBsrnFormat()
 
 # LR0006 ------------------------------------------------------------------
-# A FAIRE
+# TODO : valider cette classe
 lr0006 = LR0006$new()
 lr0006
 lr0006$showBsrnFormat()
@@ -65,7 +65,7 @@ lr0008 = LR0008$new(
   model = "CMP 22",
   serialNumber = "140114",
   identification = 82001,
-  radiationQuantityMeasured = 2, # TODO : mettre dans LR0009
+  radiationQuantityMeasured = 2,
   pyrgeometerDome = 2,
   location = "PMOD-WRC",
   person = "N. Mingard",
