@@ -37,15 +37,9 @@ lr0001 # Print the object - a.k.a. print infos.
 ```
 
 ## TODO
- - fonction du genere le bsrn header
- - generate with changing month
- - renforcer le control validateFunction
- - Optimiser parse et eval
- - Private methods
- - Attention au sens de lecture, les classes doivent etre lues en dernier, le mettre dans la doc
- - gestion de la sauvegarde
- - Global variable avec bsrn var (csv) => .Rdata ?
- - Validate all validate functions
- - By default, nothing change. Note that somewhere
- - Valider le type en fonction de I, A ou F.. 
- - Prévoir aussi les types vecteurs, les types dans les listes BSRN
+ - Fonction qui genere le BSRN header en entier. Est qu'une R6 classe dans une liste reste classe ? 
+ - Attention au sens de lecture, les classes doivent etre lues en dernier à la compilation. Le mettre dans la doc.
+ - Exemple de gestion de la sauvegarde.
+ - Est ce que justify est necessaire dans le bsrn format ?
+ - Fonction pour generer list sensors à partir d'une liste de LR0008.
+ - Mettre le bon format en fixed point pour les valeurs en F7.3 et F12.4

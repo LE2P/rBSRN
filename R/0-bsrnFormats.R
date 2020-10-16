@@ -5,15 +5,12 @@
 #' @return A char with the BSRN format
 #'
 lr0001GetBsrnFormat <- function(listSensor = c("2", "3", "4", "5", "21", "22", "23")){
-  #TODO : change this ways of list sensors
-  #TODO : is justify necessary ?
-  #TODO : Ameliorer le code pour le rendre plus clair
 
   stopIfValuesMissing(message = "LR0001", self)
 
-  listIds <- t(matrix(c(listSensor, rep(-1, 8 - length(listSensor) %% 8)), nrow = 8))
-  listIds <- format(listIds, width = 9, justify = "right")
-  formatListSensor <- paste0(" ", paste(apply(listIds, 1, paste, collapse = " "), collapse = "\n "))
+  lS <- listSensor %>%  as.numeric(); n <- length(lS)
+  listIds <- c(lS, rep(-1, 8 - n%%8)) %>% matrix(nrow = 8) %>% t() %>% format(width = 9)
+  formatListSensor <- paste0(" ", apply(listIds, 1, paste, collapse = " ") %>% paste(collapse = "\n "))
 
   for (varName in names(private$.params))
     assign(varName, self$getFormatValue(varName))

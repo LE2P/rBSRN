@@ -43,14 +43,22 @@ lr0004
 lr0004$showBsrnFormat()
 
 # LR0005 ------------------------------------------------------------------
-# TODO : valider cette classe
-lr0005 = LR0005$new()
+lr0005 = LR0005$new(
+  manufacturer = "Kipp 'n Zonen",
+  location = "La Réunion",
+  distanceFromSite = 120,
+  identification = "AAAAA"
+)
 lr0005
 lr0005$showBsrnFormat()
 
 # LR0006 ------------------------------------------------------------------
-# TODO : valider cette classe
-lr0006 = LR0006$new()
+lr0006 = LR0006$new(
+  manufacturer = "Kipp 'n Zonen",
+  location = "La Réunion",
+  distanceFromSite = 120,
+  identification = "AAAAA"
+)
 lr0006
 lr0006$showBsrnFormat()
 
@@ -79,4 +87,3 @@ lr0008 = LR0008$new(
 lr0008
 lr0008$showBsrnFormat(printLr = T)
 lr0008$showBsrnFormat(printLr = T, LR0009Format = T)
-

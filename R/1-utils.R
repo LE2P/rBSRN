@@ -38,6 +38,17 @@ undot <- function(varName){
 }
 
 
+#' Parse text containing R code and eval it.
+#'
+#' @param text text containing R code
+#'
+#' @return evaluation of R code
+#'
+parseEval <- function(text){
+  parse(text = text) %>% eval()
+}
+
+
 #' Return parameters for a specific logical record
 #'
 #' @param lr char logical record ("LR0001", "LR0002", ...)
@@ -70,7 +81,7 @@ getPrivateVars <- function(lr){
     privatesVars <- paste0(privatesVars, ".", p$name, ' = ', p$defaultValue, ',\n')
   }
   privatesVars <- paste0(privatesVars, '.params = getParams("', lr, '")')
-  vars <- eval(parse(text=paste0('list(',privatesVars,')')))
+  vars <- paste0('list(',privatesVars,')') %>% parseEval()
   return(vars)
 }
 
@@ -90,18 +101,16 @@ getPrivateVars <- function(lr){
 #' }
 #'
 rw_ActiveBinding <- function(varName){
-  parse(
-    text = paste0(
-      "function(value){
-         if (missing(value)) return(private$", dot(varName), ")
-         else {
-           err <- private$.params$", varName, "$validateFunction(value)
-           if(!is.null(err)) stop(paste(", varName, ", err$message), call. = F)
-           private$", dot(varName), " <- value
-         }
-       }"
-    )
-  ) %>% eval()
+  paste0("
+  function(value){
+    if (missing(value)){
+      return(private$", dot(varName), ")
+    } else {
+      err <- private$.params$", varName, "$validateFunction(value)
+      if(!is.null(err)) stop(paste(", varName, ", err$message), call. = F)
+      private$", dot(varName), " <- value
+    }
+  }") %>% parseEval()
 }
 
 
@@ -121,16 +130,14 @@ rw_ActiveBinding <- function(varName){
 #'
 r__ActiveBinding <- function(varName){
   message <- paste("Can't change the", varName)
-  parse(
-    text = paste0(
-      "function(value){
-         if (missing(value)) return(private$", dot(varName), ')
-         else {
-            stop("', message, '", call. = F)
-         }
-       }'
-    )
-  ) %>% eval()
+  paste0("
+  function(value){
+    if (missing(value)){
+      return(private$", dot(varName), ')
+    } else {
+      stop("', message, '", call. = F)
+    }
+  }') %>% parseEval()
 }
 
 
@@ -159,20 +166,17 @@ getActiveBindings <- function(lr){
 #' @return Initialize function.
 #'
 genericInitialize <- function(vars){
-  parse(
-    text = paste0(
-      "function(", vars, "){
-         for (var in ls()){
-           value <- get(var)
-           if(!is.null(value)){
-             err <- private$.params[[var]]$validateFunction(value)
-             if(!is.null(err)) stop(paste(var, err$message), call. = F)
-             private[[dot(var)]] <- value
-           }
-         }
-      }"
-    )
-  ) %>% eval()
+  paste0("
+  function(", vars, "){
+    for (var in ls()){
+      value <- get(var)
+      if(!is.null(value)){
+        err <- private$.params[[var]]$validateFunction(value)
+        if(!is.null(err)) stop(paste(var, err$message), call. = F)
+        private[[dot(var)]] <- value
+      }
+    }
+  }") %>% parseEval()
 }
 
 
@@ -322,7 +326,7 @@ getFormatValue <- function(varName){
   if (is.null(value)) value <- private$.params[[varName]]$missingCode
   switch(
     EXPR = private$.params[[varName]]$format,
-    "L"   = if (value) "Y" else "N", # TODO : TRUE FORMAT "A1"
+    "L"   = if (value) "Y" else "N",
     "I2"  = value %>% format(width = 2),
     "I3"  = value %>% format(width = 3),
     "I4"  = value %>% format(width = 4),
@@ -341,7 +345,7 @@ getFormatValue <- function(varName){
     "A40" = value %>% format(width = 40),
     "A50" = value %>% format(width = 50),
     "A80" = value %>% format(width = 80),
-    "F7.3" = value %>% format(width = 7), # TODO : mettre le bon format en fixed point
+    "F7.3" = value %>% format(width = 7),
     "F12.4" = value %>% format(width = 12),
     value
   )
