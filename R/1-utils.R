@@ -342,8 +342,35 @@ getFormatValue <- function(varName){
     "A50" = value %>% format(width = 50),
     "A80" = value %>% format(width = 80),
     "F7.3" = value %>% format(width = 7), # TODO : mettre le bon format en fixed point
-    "F12.4" = value %>% format(width = 12)
+    "F12.4" = value %>% format(width = 12),
+    value
   )
+}
+
+
+#' Get the BSRN format for LR0004 azimuth and elevation
+#'
+#' Internal function.
+#'
+#' @param azimuth (string) azimuth at format "A1,A2,...,An"
+#' @param elevation (string) elevation at format "E1,E2,...,En"
+#'
+#' @return (string) Azimuth and elevation at LR0004 format
+#'
+getAzimuthElevation <- function(azimuth = NULL, elevation = NULL){
+  if (is.null(azimuth) | is.null(elevation)){
+    AzimuthElevation <- "  -1 -1"
+  } else {
+    azimuth <- strsplit(azimuth, ",")[[1]] %>% as.numeric()
+    elevation <- strsplit(elevation, ",")[[1]] %>% as.numeric()
+    n <- length(azimuth)
+    if (n != length(elevation)) stop("azimuth and elevation must have same size")
+    azimuth <- c(azimuth, rep(-1, 11 - n %% 11)) %>% format(width = 3)
+    elevation <- c(elevation, rep(-1, 11 - n %% 11)) %>% format(width = 2)
+    aziEle <- rbind(azimuth, elevation) %>% c() %>%  matrix(nrow = 22) %>% t()
+    AzimuthElevation <- paste0(" ", apply(aziEle, 1, paste, collapse = " ") %>% paste(collapse = "\n "))
+  }
+  return(AzimuthElevation)
 }
 
 

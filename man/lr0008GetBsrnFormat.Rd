@@ -4,7 +4,7 @@
 \alias{lr0008GetBsrnFormat}
 \title{LR0008 get BSRN format function}
 \usage{
-lr0008GetBsrnFormat(anyChange = FALSE, printLr = FALSE)
+lr0008GetBsrnFormat(anyChange = FALSE, printLr = FALSE, LR0009Format = FALSE)
 }
 \value{
 A char with the BSRN format

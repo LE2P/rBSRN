@@ -89,24 +89,6 @@ lr0004GetBsrnFormat <- function(){
   for (varName in names(private$.params))
     assign(varName, self$getFormatValue(varName))
 
-  # ex data :
-  # azimuth <- seq(0, 350, length.out = 15)
-  # elevation <- round(seq(0, 89, length.out = 15))
-  # TODO : Ameliorer le split (avec une fct par exemple)
-  if (is.null(private$.azimuthElevation)){
-    AzimuthElevation <- "  -1 -1"
-  } else {
-    aziEleSplit <- unlist(strsplit(strsplit(private$.azimuthElevation, ",")[[1]],"-"))
-    azimuth <- aziEleSplit[seq(1,length(aziEleSplit), 2)]
-    elevation <- aziEleSplit[seq(2,length(aziEleSplit), 2)]
-    azimuth <- c(azimuth, rep(-1, 11 - length(azimuth) %% 11))
-    elevation <- c(elevation, rep(-1, 11 - length(elevation) %% 11))
-    azimuth <- format(azimuth, width = 3, justify = "right")
-    elevation <- format(elevation, width = 2, justify = "right")
-    aziEle <- t(matrix(c(rbind(azimuth, elevation)), nrow = 22))
-    AzimuthElevation <- paste0(" ", paste(apply(aziEle, 1, paste, collapse = " "), collapse = "\n "))
-  }
-
   thisFormat <- paste(
     ifelse(private$.stationDescChange | private$.horizonChange, "*C0004", "*U0004"),
     ifelse(private$.stationDescChange, " $[.2s]{stationDescChangeDay} $[.2s]{stationDescChangeHour} $[.2s]{stationDescChangeMin}", " -1 -1 -1"),
@@ -116,7 +98,7 @@ lr0004GetBsrnFormat <- function(){
     "$[.15s]{tcpip} $[.50s]{mail}",
     " $[.7s]{latitude} $[.7s]{longitude} $[.4s]{altitude} $[.5s]{synop}",
     ifelse(private$.horizonChange, " $[.2s]{horizonChangeDay} $[.2s]{horizonChangeHour} $[.2s]{horizonChangeMin}", " -1 -1 -1"),
-    AzimuthElevation,
+    getAzimuthElevation(azimuth, elevation),
     sep = '\n'
   )
 
@@ -215,54 +197,40 @@ lr0007GetBsrnFormat <- function(synop){
 #'
 #' @return A char with the BSRN format
 #'
-lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE){
+lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE, LR0009Format = FALSE){
 
   stopIfValuesMissing(message = "LR0008", self)
 
   for (varName in names(private$.params))
     assign(varName, self$getFormatValue(varName))
 
-  thisFormat <- paste(
-    paste(ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"), ifelse(private$.operating, "Y", "N")),
-    "$[.30s]{manufacturer} $[.15s]{model} $[.18s]{serialNumber} $[.8s]{dateOfPurchase} $[.5s]{identification}",
-    "$[.80s]{remarks}",
-    " $[2s]{pyrgeometerBody} $[2s]{pyrgeometerDome} $[.7s]{wavelenghBand1} $[.7s]{bandwidthBand1} $[.7s]{wavelenghBand2} $[.7s]{bandwidthBand2} $[.7s]{wavelenghBand3} $[.7s]{bandwidthBand3} $[.2s]{maxZenithAngle} $[.2s]{minSpectral}",
-    "$[.30s]{location} $[.40s]{person}",
-    "$[.8s]{startOfCalibPeriod1} $[.8s]{endOfCalibPeriod1} $[.2s]{numOfComp1} $[.12s]{meanCalibCoeff1} $[.12s]{stdErrorCalibCoeff1}",
-    "$[.8s]{startOfCalibPeriod2} $[.8s]{endOfCalibPeriod2} $[.2s]{numOfComp2} $[.12s]{meanCalibCoeff2} $[.12s]{stdErrorCalibCoeff2}",
-    "$[.8s]{startOfCalibPeriod3} $[.8s]{endOfCalibPeriod3} $[.2s]{numOfComp3} $[.12s]{meanCalibCoeff3} $[.12s]{stdErrorCalibCoeff3}",
-    "$[.80s]{remarksOnCalib1}",
-    "$[.80s]{remarksOnCalib2}",
-    sep = '\n'
-  )
-
-  if (printLr)
-    thisFormat <- paste(ifelse(anyChange, "*C0008", "*U0008"), thisFormat, sep = "\n")
-
-  res <- str_interp(thisFormat)
-  return(res)
-}
-
-
-#' LR0009 get BSRN format function
-#'
-#' @return A char with the BSRN format
-#'
-lr0009GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE){
-
-  stopIfValuesMissing(message = "LR0009", self)
-
-  for (varName in names(private$.params))
-    assign(varName, self$getFormatValue(varName))
-
-  thisFormat <- paste0(
-    if (printLr) ifelse(anyChange, "*C0009\n", "*U0009\n"),
-    paste(
+  if (LR0009Format){
+    thisFormat <- paste(
       ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"),
       "$[.9s]{radiationQuantityMeasured} $[.5s]{identification} $[.2s]{numOfBand}"
     )
-  )
+  } else {
+    thisFormat <- paste(
+      paste(ifelse(private$.change, " $[.2s]{changeDay} $[.2s]{changeHour} $[.2s]{changeMin}", " -1 -1 -1"), ifelse(private$.operating, "Y", "N")),
+      "$[.30s]{manufacturer} $[.15s]{model} $[.18s]{serialNumber} $[.8s]{dateOfPurchase} $[.5s]{identification}",
+      "$[.80s]{remarks}",
+      " $[2s]{pyrgeometerBody} $[2s]{pyrgeometerDome} $[.7s]{wavelenghBand1} $[.7s]{bandwidthBand1} $[.7s]{wavelenghBand2} $[.7s]{bandwidthBand2} $[.7s]{wavelenghBand3} $[.7s]{bandwidthBand3} $[.2s]{maxZenithAngle} $[.2s]{minSpectral}",
+      "$[.30s]{location} $[.40s]{person}",
+      "$[.8s]{startOfCalibPeriod1} $[.8s]{endOfCalibPeriod1} $[.2s]{numOfComp1} $[.12s]{meanCalibCoeff1} $[.12s]{stdErrorCalibCoeff1}",
+      "$[.8s]{startOfCalibPeriod2} $[.8s]{endOfCalibPeriod2} $[.2s]{numOfComp2} $[.12s]{meanCalibCoeff2} $[.12s]{stdErrorCalibCoeff2}",
+      "$[.8s]{startOfCalibPeriod3} $[.8s]{endOfCalibPeriod3} $[.2s]{numOfComp3} $[.12s]{meanCalibCoeff3} $[.12s]{stdErrorCalibCoeff3}",
+      "$[.80s]{remarksOnCalib1}",
+      "$[.80s]{remarksOnCalib2}",
+      sep = '\n'
+    )
+  }
+
+  if (printLr){
+    h <- paste0(ifelse(anyChange, "*C000", "*U000"), ifelse(LR0009Format, "9", "8"), "\n")
+    thisFormat <- paste0(h, thisFormat)
+  }
 
   res <- str_interp(thisFormat)
   return(res)
 }
+

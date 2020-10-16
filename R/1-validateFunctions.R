@@ -368,7 +368,11 @@ longitude_validateFunction <- function(value){
 #' @param value value to validate
 #'
 date_validateFunction <- function(value){
-  # TODO faire validation date
+  err <- A_validateFunction(value, 8)
+  if(!is.null(err)) return(err)
+
+  if (is.na(as.Date(value, format = '%m/%d/%Y')))
+    return(simpleError('must have format "MM/DD/YY"'))
 }
 
 
@@ -380,3 +384,32 @@ zenith_validateFunction <- function(value){
   err <- I_validateFunction(value, 2, 0, 90)
   if(!is.null(err)) return(err)
 }
+
+
+#' azimuth validation function
+#'
+#' @param value value to validate
+#'
+azimuth_validateFunction <- function(value){
+  err <- A_validateFunction(value)
+  if(!is.null(err)) return(err)
+
+  azimuthRegex <- "^(?:(?:3[0-5][0-9]|2[0-9][0-9]|[01]?[0-9]?[0-9]),)*(?:(?:3[0-5][0-9]|2[0-9][0-9]|[01]?[0-9]?[0-9]){1})$"
+  if(!str_detect(value, azimuthRegex))
+    return(simpleError("must have a azimuth format (A1,A2,...,An)"))
+}
+
+
+#' elevation validation function
+#'
+#' @param value value to validate
+#'
+elevation_validateFunction <- function(value){
+  err <- A_validateFunction(value)
+  if(!is.null(err)) return(err)
+
+  elevationRegex <- "^(?:(?:[0-8]?[0-9]),)*(?:(?:[0-8]?[0-9]){1})$"
+  if(!str_detect(value, elevationRegex))
+    return(simpleError("must have a elevation format (E1,E2,...,En)"))
+}
+
