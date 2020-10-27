@@ -1,3 +1,7 @@
+A1_formats <- read.csv("./inst/bsrnparams.csv")
+
+save(A1_formats, file = "./data/A1_formats.rda")
+
 A3_quantities <- c(
   "global 2 (pyranometer)" =	2,
   "direct" =	3,

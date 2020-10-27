@@ -11,7 +11,7 @@
 #' dot('foo')
 #'
 dot <- function(varName) {
-  if(substr(varName, 1, 1) == ".")
+   if(substr(varName, 1, 1) == ".")
     return(varName)
   else
     return(paste0(".", varName))
@@ -81,7 +81,7 @@ getPrivateVars <- function(lr){
     privatesVars <- paste0(privatesVars, ".", p$name, ' = ', p$defaultValue, ',\n')
   }
   privatesVars <- paste0(privatesVars, '.params = getParams("', lr, '")')
-  vars <- paste0('list(',privatesVars,')') %>% parseEval()
+  vars <- paste0('list(', privatesVars, ')') %>% parseEval()
   return(vars)
 }
 
@@ -107,7 +107,7 @@ rw_ActiveBinding <- function(varName){
       return(private$", dot(varName), ")
     } else {
       err <- private$.params$", varName, "$validateFunction(value)
-      if(!is.null(err)) stop(paste(", varName, ", err$message), call. = F)
+      if(!is.null(err)) stop(paste('", varName, "\n', err$message), call. = F)
       private$", dot(varName), " <- value
     }
   }") %>% parseEval()
@@ -165,6 +165,7 @@ getActiveBindings <- function(lr){
 #'
 #' @return Initialize function.
 #'
+#' TODO : voir fonction formals, body, is.language, expression, substitute
 genericInitialize <- function(vars){
   paste0("
   function(", vars, "){
@@ -271,10 +272,15 @@ genericPrint <- function(){
     message <- paste0(message, "WARNING : The object is missing value(s).\n")
   vars <- names(private$.params)
   mVars <- self$mandatories()
-  for(v in vars)
+  for(v in vars){
+    value <- private[[dot(v)]]
+    if (length(value) > 1)
+      value <- paste(c(head(value), "..."), collapse = " ")
     message <- paste0(
       message, if(v %in% mVars) "[mandatory] " else "[optional] ",
-      v, ' (', private$.params[[v]]$label, ") : ", private[[dot(v)]], "\n")
+      v, ' (', private$.params[[v]]$label, ") : ", value, "\n"
+    )
+  }
   cat(message)
 }
 
@@ -287,7 +293,7 @@ genericPrint <- function(){
 #'
 getPublicMethods <- function(lr){
   ps <- getParams(lr)
-  vars <- lapply(ps, function(ele) paste(ele$name, "=", ele$defaultValue)) %>%
+  vars <- lapply(ps, function(ele) paste(ele$name, "=", ele$defaultValue))  %>%
     paste(collapse = ", ")
   publicMethods <- list(
     initialize = genericInitialize(vars),
@@ -311,7 +317,7 @@ getPublicMethods <- function(lr){
 #' Internal function.
 #'
 genericValidateFunction <- function(value){
-  stopifnot(TRUE)
+  return()
 }
 
 
@@ -323,15 +329,25 @@ genericValidateFunction <- function(value){
 #'
 getFormatValue <- function(varName){
   value <- private[[dot(varName)]]
-  if (is.null(value)) value <- private$.params[[varName]]$missingCode
+  if (is.null(value)) {
+    value <- private$.params[[varName]]$missingCode
+    return(value)
+  }
+
+  if (length(value) > 1) # numeric vector case
+    value[is.na(value)] <- private$.params[[varName]]$missingCode %>% as.numeric()
+
   switch(
     EXPR = private$.params[[varName]]$format,
     "L"   = if (value) "Y" else "N",
-    "I2"  = value %>% format(width = 2),
-    "I3"  = value %>% format(width = 3),
-    "I4"  = value %>% format(width = 4),
-    "I5"  = value %>% format(width = 5),
-    "I9"  = value %>% format(width = 9),
+    "I2"  = sprintf('%2.0f', value),
+    "I3"  = sprintf('%3.0f', value),
+    "I4"  = sprintf('%4.0f', value),
+    "I5"  = sprintf('%5.0f', value),
+    "I9"  = sprintf('%9.0f', value),
+    "F5.1" = sprintf('%5.1f', value),
+    "F7.3" = sprintf('%7.3f', value),
+    "F12.4" = sprintf('%12.4f', value),
     "A"   = value %>% str_wrap(width = 80),
     "A1"  = value %>% format(width = 1),
     "A5"  = value %>% format(width = 5),
@@ -345,8 +361,6 @@ getFormatValue <- function(varName){
     "A40" = value %>% format(width = 40),
     "A50" = value %>% format(width = 50),
     "A80" = value %>% format(width = 80),
-    "F7.3" = value %>% format(width = 7),
-    "F12.4" = value %>% format(width = 12),
     value
   )
 }
@@ -391,3 +405,26 @@ stopIfValuesMissing <- function(message = NULL, self){
   }
 }
 
+#' Number of days into a month
+#'
+#' @param yearMonth (string) year month format "YYYY-MM". Ex : "2012-02"
+#'
+#' @return (numeric) number of day into the month
+#'
+numberOfDays <- function(yearMonth){
+  ym <- as.yearmon(yearMonth)
+  nd <- as.numeric(as.Date(ym + 1/12) - as.Date(ym))
+  return(nd)
+}
+
+
+#' Number of minutes into a month
+#'
+#' @param yearMonth (string) year month format "YYYY-MM". Ex : "2012-02"
+#'
+#' @return (numeric) number of minutes into the month
+#'
+numberOfMinutes <- function(yearMonth){
+  nm <- numberOfDays(yearMonth) * 1440
+  return(nm)
+}
