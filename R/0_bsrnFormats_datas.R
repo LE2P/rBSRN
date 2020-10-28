@@ -10,8 +10,8 @@ lr0100GetBsrnFormat <- function(changed){
     assign(varName, self$getFormatValue(varName))
 
   nd <- numberOfDays(yearMonth)
-  daysOfMonth <-  rep(1:nd, each = 1440)
-  minutesOfDay <- rep(1:1440, nd)
+  daysOfMonth <-  rep(1:nd, each = 1440) %>% formatC(format = 'd', width = 2)
+  minutesOfDay <- rep(0:1439, nd) %>%  formatC(format = 'd', width = 4)
 
   fullMatrix <- data.frame(
     daysOfMonth, minutesOfDay, global2_avg, global2_std, global2_min,
