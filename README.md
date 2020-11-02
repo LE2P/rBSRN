@@ -1,4 +1,5 @@
 # rBSRN
+
 An R package to facilitate BSRN header generation
 
 ## Instalation
@@ -35,11 +36,3 @@ lr0001$getBsrnFormat() # Get BSRN Format.
 lr0001$showBsrnFormat() # Show BSRN Format.
 lr0001 # Print the object - a.k.a. print infos.
 ```
-
-## TODO
- - Fonction qui genere le BSRN header en entier. Est qu'une R6 classe dans une liste reste classe ? 
- - Attention au sens de lecture, les classes doivent etre lues en dernier à la compilation. Le mettre dans la doc.
- - Exemple de gestion de la sauvegarde.
- - Est ce que justify est necessaire dans le bsrn format ?
- - Fonction pour generer list sensors à partir d'une liste de LR0008.
- - Mettre le bon format en fixed point pour les valeurs en F7.3 et F12.4
