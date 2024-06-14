@@ -16,5 +16,8 @@ params list
 Return parameters for a specific logical record
 }
 \examples{
+\dontrun{
 getParams("LR0001")
+}
+
 }

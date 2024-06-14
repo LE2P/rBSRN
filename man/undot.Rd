@@ -17,6 +17,8 @@ Internal function.
 This function remove a dot behind the variable name : ".foo" => "foo
 }
 \examples{
+\dontrun{
 undot(".foo")
+}
 
 }

@@ -6,6 +6,9 @@
 \usage{
 genericValidateFunction(value)
 }
+\arguments{
+\item{value}{value to validate}
+}
 \description{
 Internal function.
 }

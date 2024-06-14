@@ -6,6 +6,9 @@
 \usage{
 lr0100GetBsrnFormat(changed)
 }
+\arguments{
+\item{changed}{boolean did LR0100 changed this month ?}
+}
 \value{
 A char with the BSRN format
 }

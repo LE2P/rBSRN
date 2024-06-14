@@ -5,7 +5,7 @@
 \alias{A1_formats}
 \title{Table A1. BSRN station-to-archive file format.}
 \format{
-An object of class \code{data.frame} with 141 rows and 9 columns.
+An object of class \code{data.frame} with 141 rows and 8 columns.
 }
 \usage{
 A1_formats

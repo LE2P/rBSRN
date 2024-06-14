@@ -4,7 +4,10 @@
 \alias{lr0007GetBsrnFormat}
 \title{LR0007 get BSRN format function}
 \usage{
-lr0007GetBsrnFormat(synop)
+lr0007GetBsrnFormat(synop = NULL)
+}
+\arguments{
+\item{synop}{the value of the synop (LR0007)}
 }
 \value{
 A char with the BSRN format

@@ -5,4 +5,5 @@
 
 #! IMPORT FROM
 #' @importFrom R6 R6Class
+#' @importFrom utils data head
 NULL

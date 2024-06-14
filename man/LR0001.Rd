@@ -22,8 +22,6 @@ A LR0001 has a station number, month, year and version.
   \item mandatories() : List of mandatory variable.
   \item missings() : List of missing variables.
   \item setDefault() : Set a variable to default value.
-  \item getMissingCode() : Get the missing code for the variable.
-  \item getLabel() : Get the label for the variable.
   \item getFormatValue () : Get value with the correct format.
   \item getBsrnFormat() : Get the BSRN format of the object.
   \item showBsrnFormat() : Print the BSRN format.
@@ -31,19 +29,19 @@ A LR0001 has a station number, month, year and version.
 }
 }
 \examples{
-lr0001 = LR0001$new(month = 12, year = 2019, version = 3)
-lr0001$stationNumber = 2
-lr0001$stationNumber
-lr0001$mandatories()
-lr0001$missings()
-lr0001$isValuesMissing()
-lr0001$setDefault("month")
-lr0001$month
-lr0001$month = 1
-lr0001$getMissingCode("month")
-lr0001$getLabel("month")
-lr0001$getBsrnFormat()
-lr0001$showBsrnFormat()
-lr0001
+lr0001 <- LR0001$new(month = 12, year = 2019, version = 3) # New object.
 
+lr0001$stationNumber = 2 # Affect value.
+lr0001$stationNumber
+lr0001$params$stationNumber$mandatory # but consult is OK.
+lr0001$mandatories() # List of mandatories variables.
+lr0001$missings() # List of empty mandatory variables.
+lr0001$isValuesMissing() #  There is some missing ?
+lr0001$setDefault("month") # Set the default value.
+lr0001$month # Missing = NULL
+lr0001$month = 1
+
+lr0001$getBsrnFormat() # Get BSRN Format.
+lr0001$showBsrnFormat() # Show BSRN Format.
+lr0001 # Print the object - a.k.a. print infos.
 }

@@ -17,6 +17,8 @@ Internal function.
 This function put a dot behind the variable name : "foo" => ".foo".
 }
 \examples{
+\dontrun{
 dot('foo')
+}
 
 }

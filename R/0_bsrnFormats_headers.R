@@ -155,9 +155,11 @@ lr0006GetBsrnFormat <- function(){
 
 #' LR0007 get BSRN format function
 #'
+#' @param synop the value of the synop (LR0007)
+#'
 #' @return A char with the BSRN format
 #'
-lr0007GetBsrnFormat <- function(synop){
+lr0007GetBsrnFormat <- function(synop = NULL){
 
   stopIfValuesMissing(message = "LR0007", self)
 
@@ -191,6 +193,10 @@ lr0007GetBsrnFormat <- function(synop){
 
 
 #' LR0008 get BSRN format function
+#'
+#' @param anyChange boolean if LR0008 changed
+#' @param printLr boolean to print first row of LR
+#' @param LR0009Format boolean display LR0009 ?
 #'
 #' @return A char with the BSRN format
 #'

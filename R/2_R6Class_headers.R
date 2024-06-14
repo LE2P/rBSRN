@@ -9,8 +9,6 @@
 #'   \item mandatories() : List of mandatory variable.
 #'   \item missings() : List of missing variables.
 #'   \item setDefault() : Set a variable to default value.
-#'   \item getMissingCode() : Get the missing code for the variable.
-#'   \item getLabel() : Get the label for the variable.
 #'   \item getFormatValue () : Get value with the correct format.
 #'   \item getBsrnFormat() : Get the BSRN format of the object.
 #'   \item showBsrnFormat() : Print the BSRN format.
@@ -23,21 +21,7 @@
 #' @param version Version of data
 #'
 #' @export
-#' @examples
-#' lr0001 = LR0001$new(month = 12, year = 2019, version = 3)
-#' lr0001$stationNumber = 2
-#' lr0001$stationNumber
-#' lr0001$mandatories()
-#' lr0001$missings()
-#' lr0001$isValuesMissing()
-#' lr0001$setDefault("month")
-#' lr0001$month
-#' lr0001$month = 1
-#' lr0001$getMissingCode("month")
-#' lr0001$getLabel("month")
-#' lr0001$getBsrnFormat()
-#' lr0001$showBsrnFormat()
-#' lr0001
+#' @example inst/examples/LR0001.R
 #'
 LR0001 <- R6::R6Class(
   classname = "LR0001",
@@ -58,8 +42,6 @@ LR0001 <- R6::R6Class(
 #'   \item mandatories() : List of mandatory variable.
 #'   \item missings() : List of missing variables.
 #'   \item setDefault() : Set a variable to default value.
-#'   \item getMissingCode() : Get the missing code for the variable.
-#'   \item getLabel() : Get the label for the variable.
 #'   \item getFormatValue () : Get value with the correct format.
 #'   \item getBsrnFormat() : Get the BSRN format of the object.
 #'   \item showBsrnFormat() : Print the BSRN format.
@@ -88,21 +70,7 @@ LR0001 <- R6::R6Class(
 #' @param deputyAddress Deputy address
 #'
 #' @export
-#' @examples
-#' lr0002 = LR0002$new(scientistChange = FALSE, scientistChangeDay = -1, scientistChangeHour = -1, scientistChangeMinute = -1, scientistName = NULL, scientistTel = NULL, scientistFax = NULL, scientistTcpip = NULL, scientistMail = NULL, scientistAddress = NULL, deputyChange = FALSE, deputyChangeDay = -1, deputyChangeHour = -1, deputyChangeMinute = -1, deputyName = NULL, deputyTel = NULL, deputyFax = NULL, deputyTcpip = NULL, deputyMail = NULL, deputyAddress = NULL)
-#' lr0002$scientistChange = TRUE
-#' lr0002$stationNumber
-#' lr0002$mandatories()
-#' lr0002$missings()
-#' lr0002$isValuesMissing()
-#' lr0002$setDefault("month")
-#' lr0002$month
-#' lr0002$month = 1
-#' lr0002$getMissingCode("month")
-#' lr0002$getLabel("month")
-#' lr0002$getBsrnFormat()
-#' lr0002$showBsrnFormat()
-#' lr0002
+#' @example inst/examples/LR0002.R
 #'
 LR0002 <- R6::R6Class(
   classname = "LR0002",
@@ -124,8 +92,6 @@ LR0002 <- R6::R6Class(
 #'   \item mandatories() : List of mandatory variable.
 #'   \item missings() : List of missing variables.
 #'   \item setDefault() : Set a variable to default value.
-#'   \item getMissingCode() : Get the missing code for the variable.
-#'   \item getLabel() : Get the label for the variable.
 #'   \item getFormatValue () : Get value with the correct format.
 #'   \item getBsrnFormat() : Get the BSRN format of the object.
 #'   \item showBsrnFormat() : Print the BSRN format.
@@ -135,21 +101,7 @@ LR0002 <- R6::R6Class(
 #' @param message Messages not to be inserted in the BSRN database
 #'
 #' @export
-#' @examples
-#' lr0003 = LR0003$new(message = "Something important")
-#' lr0003$message = "Some information"
-#' lr0003$message
-#' lr0003$mandatories()
-#' lr0003$missings()
-#' lr0003$isValuesMissing()
-#' lr0003$setDefault("month")
-#' lr0003$month
-#' lr0003$month = 1
-#' lr0003$getMissingCode("month")
-#' lr0003$getLabel("month")
-#' lr0003$getBsrnFormat()
-#' lr0003$showBsrnFormat()
-#' lr0003
+#' @example inst/examples/LR0003.R
 #'
 LR0003 <- R6::R6Class(
   classname = "LR0003",
@@ -163,6 +115,8 @@ LR0003 <- R6::R6Class(
 #' A LR0004 contain object.
 #'
 #' @export
+#' @example inst/examples/LR0004.R
+#'
 LR0004 <- R6::R6Class(
   classname = "LR0004",
   private = getPrivateVars("LR0004"),
@@ -202,6 +156,8 @@ LR0006 <- R6::R6Class(
 #' A LR0007 contain object.
 #'
 #' @export
+#' @example inst/examples/LR0007.R
+#'
 LR0007 <- R6::R6Class(
   classname = "LR0007",
   private = getPrivateVars("LR0007"),
@@ -215,6 +171,8 @@ LR0007 <- R6::R6Class(
 #' A LR0008 contain object.
 #'
 #' @export
+#' @example inst/examples/LR0008.R
+#'
 LR0008 <- R6::R6Class(
   classname = "LR0008",
   private = getPrivateVars("LR0008"),

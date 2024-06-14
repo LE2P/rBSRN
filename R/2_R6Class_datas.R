@@ -1,6 +1,7 @@
 #' R6 Class representing BSRN LR0100 (Logical Record 0100)
 #'
 #' @export
+#' @example inst/examples/LR0100.R
 #'
 LR0100 <- R6::R6Class(
   classname = "LR0100",

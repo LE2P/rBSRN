@@ -7,7 +7,7 @@
 genericShowBsrnFormat(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{Any parameter from the getBsrnFormat method}
 }
 \description{
 Internal function.

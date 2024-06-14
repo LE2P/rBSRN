@@ -6,6 +6,13 @@
 \usage{
 lr0008GetBsrnFormat(anyChange = FALSE, printLr = FALSE, LR0009Format = FALSE)
 }
+\arguments{
+\item{anyChange}{boolean if LR0008 changed}
+
+\item{printLr}{boolean to print first row of LR}
+
+\item{LR0009Format}{boolean display LR0009 ?}
+}
 \value{
 A char with the BSRN format
 }

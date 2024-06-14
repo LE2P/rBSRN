@@ -6,3 +6,12 @@
 \description{
 R6 Class representing BSRN LR0100 (Logical Record 0100)
 }
+\examples{
+lr0100 <- LR0100$new()
+
+lr0100$yearMonth <- "2012-01"
+lr0100$global2_avg <- rep(1, 44640)
+
+lr0100
+lr0100$showBsrnFormat(changed = TRUE)
+}

@@ -2,6 +2,8 @@
 #'
 #' @param value value to validate
 #' @param digits number of digits
+#' @param min minimum value
+#' @param max maximum value
 #'
 I_validateFunction <- function(value, digits, min = 0, max = (10^digits) - 1){
   if (!is.numeric(value)) return(simpleError("must be a numerical value"))

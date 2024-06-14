@@ -1,5 +1,7 @@
 #' LR0100 get BSRN format function
 #'
+#' @param changed boolean did LR0100 changed this month ?
+#'
 #' @return A char with the BSRN format
 #'
 lr0100GetBsrnFormat <- function(changed){

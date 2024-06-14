@@ -54,8 +54,6 @@ A LR0002 has deputy and scientist informations.
   \item mandatories() : List of mandatory variable.
   \item missings() : List of missing variables.
   \item setDefault() : Set a variable to default value.
-  \item getMissingCode() : Get the missing code for the variable.
-  \item getLabel() : Get the label for the variable.
   \item getFormatValue () : Get value with the correct format.
   \item getBsrnFormat() : Get the BSRN format of the object.
   \item showBsrnFormat() : Print the BSRN format.
@@ -63,19 +61,20 @@ A LR0002 has deputy and scientist informations.
 }
 }
 \examples{
-lr0002 = LR0002$new(scientistChange = FALSE, scientistChangeDay = -1, scientistChangeHour = -1, scientistChangeMinute = -1, scientistName = NULL, scientistTel = NULL, scientistFax = NULL, scientistTcpip = NULL, scientistMail = NULL, scientistAddress = NULL, deputyChange = FALSE, deputyChangeDay = -1, deputyChangeHour = -1, deputyChangeMinute = -1, deputyName = NULL, deputyTel = NULL, deputyFax = NULL, deputyTcpip = NULL, deputyMail = NULL, deputyAddress = NULL)
-lr0002$scientistChange = TRUE
-lr0002$stationNumber
-lr0002$mandatories()
-lr0002$missings()
-lr0002$isValuesMissing()
-lr0002$setDefault("month")
-lr0002$month
-lr0002$month = 1
-lr0002$getMissingCode("month")
-lr0002$getLabel("month")
+lr0002 <- LR0002$new(
+  scientistName = "John Doe",
+  scientistTel = "+1 800 123 4567",
+  scientistFax = "+1 800 123 4567",
+  scientistMail = "john.doe@example.com",
+  scientistAddress = "123 Main Street, Anytown, USA 12345",
+  deputyName = "Jane Doe",
+  deputyTel = "+1 800 123 4567",
+  deputyFax = "+1 800 123 4567",
+  deputyMail = "jane.doe@example.com",
+  deputyAddress = "123 Main Street, Anytown, USA 12345",
+)
+
 lr0002$getBsrnFormat()
 lr0002$showBsrnFormat()
 lr0002
-
 }

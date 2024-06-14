@@ -18,8 +18,6 @@ A LR0003 contain a message.
   \item mandatories() : List of mandatory variable.
   \item missings() : List of missing variables.
   \item setDefault() : Set a variable to default value.
-  \item getMissingCode() : Get the missing code for the variable.
-  \item getLabel() : Get the label for the variable.
   \item getFormatValue () : Get value with the correct format.
   \item getBsrnFormat() : Get the BSRN format of the object.
   \item showBsrnFormat() : Print the BSRN format.
@@ -27,19 +25,9 @@ A LR0003 contain a message.
 }
 }
 \examples{
-lr0003 = LR0003$new(message = "Something important")
-lr0003$message = "Some information"
-lr0003$message
-lr0003$mandatories()
-lr0003$missings()
-lr0003$isValuesMissing()
-lr0003$setDefault("month")
-lr0003$month
-lr0003$month = 1
-lr0003$getMissingCode("month")
-lr0003$getLabel("month")
+lr0003 <- LR0003$new(message = "Something important")
+
 lr0003$getBsrnFormat()
 lr0003$showBsrnFormat()
 lr0003
-
 }

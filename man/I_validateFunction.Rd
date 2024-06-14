@@ -10,6 +10,10 @@ I_validateFunction(value, digits, min = 0, max = (10^digits) - 1)
 \item{value}{value to validate}
 
 \item{digits}{number of digits}
+
+\item{min}{minimum value}
+
+\item{max}{maximum value}
 }
 \description{
 Integer validation function

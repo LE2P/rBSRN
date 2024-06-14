@@ -8,7 +8,9 @@
 #' @return The variable name with a dot.
 #'
 #' @examples
+#' \dontrun{
 #' dot('foo')
+#' }
 #'
 dot <- function(varName) {
    if(substr(varName, 1, 1) == ".")
@@ -28,7 +30,9 @@ dot <- function(varName) {
 #' @return The variable name without a dot.
 #'
 #' @examples
+#' \dontrun{
 #' undot(".foo")
+#' }
 #'
 undot <- function(varName){
   if(substr(varName, 1, 1) == ".")
@@ -56,7 +60,10 @@ parseEval <- function(text){
 #' @return params list
 #'
 #' @examples
+#' \dontrun{
 #' getParams("LR0001")
+#' }
+#'
 getParams <- function(lr){
   data("A1_formats"); p <- A1_formats
   p <- p[p$lr == lr, ]
@@ -255,7 +262,7 @@ genericSetDefault = function(varName){
 #'
 #' Internal function.
 #'
-#' @param ...
+#' @param ... Any parameter from the getBsrnFormat method
 #'
 genericShowBsrnFormat <- function(...){
   self$getBsrnFormat(...) %>% cat()
@@ -315,6 +322,8 @@ getPublicMethods <- function(lr){
 #' Generic function to validate data
 #'
 #' Internal function.
+#'
+#' @param value value to validate
 #'
 genericValidateFunction <- function(value){
   return()
