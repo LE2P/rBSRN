@@ -39,4 +39,4 @@ vignettes/*.pdf
 .Renviron
 
 # BSRN Documentation Directory
-doc/
+inst/docs
