@@ -13,6 +13,17 @@ I_validateFunction <- function(value, digits, min = 0, max = (10^digits) - 1){
 }
 
 
+#' Numerical validation function
+#'
+#' @param value Value to validate
+#'
+#' @return NULL if validation passes, otherwise an error message
+C_validateFunction <- function(value) {
+  if (is.null(value) || value == "") {
+    return(simpleError("Value cannot be NULL or empty"))
+  }}
+
+
 #' Character validation function
 #'
 #' @param value value to validate
@@ -90,6 +101,16 @@ I4_validateFunction <- function(value){
 #'
 I5_validateFunction <- function(value){
   err <- I_validateFunction(value, 5)
+  if(!is.null(err)) return(err)
+}
+
+
+#' I8 validation function
+#'
+#' @param value value to validate
+#'
+I8_validateFunction <- function(value){
+  err <- I_validateFunction(value, 8)
   if(!is.null(err)) return(err)
 }
 

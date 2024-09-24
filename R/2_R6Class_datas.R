@@ -10,3 +10,15 @@ LR0100 <- R6::R6Class(
   public = getPublicMethods("LR0100")
 )
 
+#' R6 Class representing BSRN LR4000 (Logical Record 4000)
+#'
+#' @export
+#' @example inst/examples/LR4000.R
+#'
+LR4000 <- R6::R6Class(
+  classname = "LR4000",
+  private = getPrivateVars("LR4000"),
+  active = getActiveBindings("LR4000"),
+  public = getPublicMethods("LR4000")
+)
+

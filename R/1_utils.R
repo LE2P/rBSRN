@@ -340,7 +340,7 @@ getFormatValue <- function(varName){
   value <- private[[dot(varName)]]
   if (is.null(value)) {
     value <- private$.params[[varName]]$missingCode
-    if (value %in% c("-999", "-99.9")) value <- as.numeric(value)
+    if (value %in% c("-999", "-999.9", "-99.9", "-99.99")) value <- as.numeric(value)
   }
 
   if (length(value) > 1) # numeric vector case
@@ -355,6 +355,8 @@ getFormatValue <- function(varName){
     "I5"  = value %>% formatC(format = "d", width = 5),
     "I9"  = value %>% formatC(format = "d", width = 9),
     "F5.1" = value %>% formatC(format = "f", width = 5, digits = 1),
+    "F6.1" = value %>% formatC(format = "f", width = 6, digits = 1),
+    "F6.2" = value %>% formatC(format = "f", width = 6, digits = 2),
     "F7.3" = value %>% formatC(format = "f", width = 7, digits = 3),
     "F12.4" = value %>% formatC(format = "f", width = 12, digits = 4),
     "A"   = value %>% str_wrap(width = 80) %>% format(width = 80),

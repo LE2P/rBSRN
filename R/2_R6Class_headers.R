@@ -179,3 +179,32 @@ LR0008 <- R6::R6Class(
   active = getActiveBindings("LR0008"),
   public = getPublicMethods("LR0008")
 )
+
+
+#' R6 Class representing BSRN LR4000CONST (Logical Record 4000 constant)
+#'
+#' A LR4000CONST contain object.
+#'
+#' @param serialNumber_Manufacturer serial number appears in the certificate plate
+#' @param serialNumber_WRMC the one used in your station-to-archive files
+#' @param certificateCodeID Certificate Code ID (type 1 or 2)
+#' @param yyyymmdd date of the calibration certificate issued
+#' @param manufact KZ (Kipp and Zonen), EP (Eppley), HF (Hukseflux), ...
+#' @param model CH1,CH1P,CM11,CM21,CM21P,CM22,CM22P,CG4,CGR4, ...
+#' @param C thermopile responsivity
+#' @param k0 general equation of the pyrgeometer
+#' @param k1 general equation of the pyrgeometer
+#' @param k2 general equation of the pyrgeometer
+#' @param k3 general equation of the pyrgeometer
+#' @param f general equation of the pyrgeometer
+#'
+#' @export
+#' @example inst/examples/LR4000.R
+#'
+LR4000CONST <- R6::R6Class(
+  classname = "LR4000CONST",
+  private = getPrivateVars("LR4000CONST"),
+  active = getActiveBindings("LR4000CONST"),
+  public = getPublicMethods("LR4000CONST")
+)
+

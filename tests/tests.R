@@ -88,6 +88,38 @@ lr0008
 lr0008$showBsrnFormat(printLr = T)
 lr0008$showBsrnFormat(printLr = T, LR0009Format = T)
 
+
+# LR4000CONST -------------------------------------------------------------
+# Method 1
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = "61008",
+  certificateCodeID = "2021-2380-01",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
+lr4000const$showBsrnFormat()
+lr4000const_1 <- lr4000const$getBsrnFormat()
+
+# Method 2
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = "61008",
+  yyyymmdd = 20211026,
+  manufact = "KZ",
+  model = "CH1",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
+lr4000const$showBsrnFormat(method = 2)
+lr4000const_2 <- lr4000const$getBsrnFormat(method = 2)
+
+lr0003 <- LR0003$new(message = "Some important message")
+lr0003
+lr0003$showBsrnFormat(lr4000const_1, lr4000const_2)
+
 # LR0100 ------------------------------------------------------------------
 lr0100 <- LR0100$new()
 lr0100$yearMonth <- "2012-01"
@@ -95,3 +127,11 @@ lr0100$yearMonth <- "2012-01"
 lr0100$global2_avg <- rep(1, 44640)
 lr0100
 lr0100$showBsrnFormat(changed = F)
+
+# LR4000 ------------------------------------------------------------------
+lr4000 <- LR4000$new()
+lr4000$yearMonth <- "2012-01"
+# lr4000$global2_avg <- 1:100
+lr4000$bodyT_down <- rep(1, 44640)
+lr4000
+lr4000$showBsrnFormat(changed = F)

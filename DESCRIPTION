@@ -1,7 +1,7 @@
 Package: rBSRN
 Type: Package
 Title: This package is an helper package to generate BSRN files
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: 
  person("Mathieu", "Delsaut", email = "mathieu.delsaut@univ-reunion.fr", role = c("aut", "cre"))
 Description: List of uselful function and R6 class to generate BSRN files.
@@ -14,4 +14,4 @@ Imports:
   stringr,
   zoo
 Roxygen: list(r6 = FALSE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2

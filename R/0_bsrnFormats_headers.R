@@ -61,16 +61,18 @@ lr0002GetBsrnFormat <- function(){
 
 #' LR0003 get BSRN format function
 #'
+#' @param ... Few more text to put in comment (ex : the LR4000CONST metadata information)
+#'
 #' @return A char with the BSRN format
 #'
-lr0003GetBsrnFormat <- function(){
+lr0003GetBsrnFormat <- function(...){
   stopIfValuesMissing(message = "LR0003", self)
 
   for (varName in names(private$.params))
     assign(varName, self$getFormatValue(varName))
 
   res <- "*U0003"
-  res <- paste(res, message, sep = "\n")
+  res <- paste(res, message, ..., sep = "\n")
   return(res)
 }
 
@@ -237,3 +239,32 @@ lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE, LR0009Format
   return(res)
 }
 
+
+#' LR4000CONST get BSRN format function
+#'
+#' @return A char with the BSRN format
+#'
+lr4000constGetBsrnFormat <- function(method = 1){
+  stopIfValuesMissing(message = "LR4000CONST", self)
+  if (!method %in% c(1,2)) stop("method must be 1 or 2")
+
+  for (varName in names(private$.params))
+    assign(varName, self$getFormatValue(varName))
+
+  if (method == 2) {
+    bool <- yyyymmdd == "" | manufact == "" | model == ""
+    if (bool) stop("missing value(s) : yyyymmdd, manufact or model")
+
+    certificateCodeID = paste(
+    "CAL", yyyymmdd, manufact, model, serialNumber_Manufacturer,
+    serialNumber_WRMC, sep = "_")
+  }
+
+  if (certificateCodeID == "") stop("missing value(s) : certificateCodeID")
+
+  res <- paste("@LR4000CONST", serialNumber_Manufacturer, serialNumber_WRMC,
+               certificateCodeID, C, k0, k1, k2, k3, f, sep = ", ") |>
+    str_wrap(width = 79)  |> str_replace('\n', '&\n')
+
+  return(res)
+}

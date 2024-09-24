@@ -29,3 +29,33 @@ lr0100GetBsrnFormat <- function(changed){
 
   return(res)
 }
+
+#' LR4000 get BSRN format function
+#'
+#' @param changed boolean did LR4000 changed this month ?
+#'
+#' @return A char with the BSRN format
+#'
+lr4000GetBsrnFormat <- function(changed){
+
+  res <- ifelse(changed, "*C4000", "*U4000")
+
+  for (varName in names(private$.params))
+    assign(varName, self$getFormatValue(varName))
+
+  nd <- numberOfDays(yearMonth)
+  daysOfMonth <-  rep(1:nd, each = 1440) %>% formatC(format = 'd', width = 2)
+  minutesOfDay <- rep(0:1439, nd) %>%  formatC(format = 'd', width = 4)
+
+  fullMatrix <- data.frame(
+    daysOfMonth, minutesOfDay, domeT1_down, domeT2_down, domeT3_down,
+    bodyT_down, longwave_down, domeT1_up, domeT2_up, domeT3_up,
+    bodyT_up, longwave_up)
+
+  strData <- paste(
+    fullMatrix %>% str_glue_data(" {daysOfMonth} {minutesOfDay} {domeT1_down} {domeT2_down} {domeT3_down} {bodyT_down} {longwave_down}  {domeT1_up} {domeT2_up} {domeT3_up} {bodyT_up} {longwave_up}"),
+    sep = '\n')
+  res <- paste(c(res, strData), collapse = '\n')
+
+  return(res)
+}

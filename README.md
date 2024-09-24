@@ -174,6 +174,39 @@ lr0100$global2_avg <- rep(1, 44640) # set here your data
 lr0100$diffuse_avg <- rep(1, 44640) 
 # ...
 
+# LR4000 ------------------------------------------------------------------
+lr4000 <- LR4000$new()
+
+lr4000$yearMonth <- "2020-07"
+lr4000$bodyT_down <- rep(1, 44640) # set here your data
+lr4000$domeT1_down <- rep(1, 44640) 
+# ...
+
+# LR4000 CONST
+# Method 1
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = 61008,
+  certificateCodeID = "2021-2380-01",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
+lr4000const_1 <- lr4000const$getBsrnFormat()
+
+# Method 2
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = 61008,
+  yyyymmdd = 20211026,
+  manufact = "KZ",
+  model = "CH1",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
+lr4000const_2 <- lr4000const$getBsrnFormat(method = 2)
+
 # Generate file ------------------------------------------------------------------
 filename <- "run0720.dat"
 
@@ -181,7 +214,10 @@ con <- file(filename, open = "w")
 cat(
   lr0001$getBsrnFormat(),
   lr0002$getBsrnFormat(),
-  lr0003$getBsrnFormat(),
+  lr0003$getBsrnFormat(
+    lr4000const_1, 
+    lr4000const_2
+  ),
   lr0004$getBsrnFormat(),
   lr0007$getBsrnFormat(synop = lr0004$synop),
   lr0008_1$getBsrnFormat(printLr = T),
@@ -193,9 +229,14 @@ cat(
   lr0008_3$getBsrnFormat(LR0009Format = T),
   lr0008_4$getBsrnFormat(LR0009Format = T),
   lr0100$getBsrnFormat(changed = T),
+  lr4000$getBsrnFormat(changed = T),
   file = con,
   sep = "\n"
 )
 close(con)
 
 ```
+
+## Acknowledgement
+
+Thanks to Dazhi Yang (@dazhiyang) for his contribution to the rBSRN package. His input enabled the management of Logical Record 4000 data, significantly enhancing the package's capabilities.

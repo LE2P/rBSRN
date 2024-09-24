@@ -4,7 +4,10 @@
 \alias{lr0003GetBsrnFormat}
 \title{LR0003 get BSRN format function}
 \usage{
-lr0003GetBsrnFormat()
+lr0003GetBsrnFormat(...)
+}
+\arguments{
+\item{...}{Few more text to put in comment (ex : the LR4000CONST metadata information)}
 }
 \value{
 A char with the BSRN format
