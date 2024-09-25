@@ -3,6 +3,48 @@
 \name{LR0005}
 \alias{LR0005}
 \title{R6 Class representing BSRN LR0005 (Logical Record 0005)}
+\arguments{
+\item{change}{[mandatory] Logical. Indicates if the radiosonde equipment changed this month (`TRUE` or `FALSE`).}
+
+\item{changeDay}{[optional] Numeric. The day of the month when the radiosonde equipment changed.}
+
+\item{changeHour}{[optional] Numeric. The hour when the radiosonde equipment changed (0-23).}
+
+\item{changeMinute}{[optional] Numeric. The minute when the radiosonde equipment changed (0-59).}
+
+\item{operating}{[mandatory] Logical. Indicates if the radiosonde is operating (`TRUE` or `FALSE`).}
+
+\item{manufacturer}{[mandatory] Character. The manufacturer of the radiosonde.}
+
+\item{location}{[mandatory] Character. The location of the radiosonde.}
+
+\item{distanceFromSite}{[mandatory] Numeric. The distance from the radiation site in kilometers (km).}
+
+\item{time1stLaunch}{[optional] Numeric. The time of the first radiosonde launch in hours (UTC).}
+
+\item{time2ndLaunch}{[optional] Numeric. The time of the second radiosonde launch in hours (UTC).}
+
+\item{time3rdLaunch}{[optional] Numeric. The time of the third radiosonde launch in hours (UTC).}
+
+\item{time4thLaunch}{[optional] Numeric. The time of the fourth radiosonde launch in hours (UTC).}
+
+\item{identification}{[mandatory] Character. The identification of the radiosonde.}
+
+\item{remarks}{[optional] Character. Any additional remarks about the radiosonde.}
+}
 \description{
 A LR0005 contain object.
+\itemize{
+  \item LR0005$new() : Create a new LR0005 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }

@@ -4,39 +4,80 @@
 \alias{LR4000CONST}
 \title{R6 Class representing BSRN LR4000CONST (Logical Record 4000 constant)}
 \arguments{
-\item{serialNumber_Manufacturer}{serial number appears in the certificate plate}
+\item{serialNumber_Manufacturer}{The serial number of the pyrgeometer as shown on the manufacturer's plate or in the calibration certificate (e.g., `050783` for Kipp & Zonen CGR4).}
 
-\item{serialNumber_WRMC}{the one used in your station-to-archive files}
+\item{serialNumber_WRMC}{The serial number used in your station-to-archive files (as defined in LR0008/0009), corresponding to the pyrgeometer's WMO/BSRN identifier (e.g., `61008`).}
 
-\item{certificateCodeID}{Certificate Code ID (type 1 or 2)}
+\item{certificateCodeID}{The Certificate Code ID of the calibration certificate. This can be the reference number of the official calibration certificate (Method 1) or the name of the archived calibration document (Method 2). Example for Method 2: `CAL_yyyymmdd_manufact_model_serial_WRMCnum`.}
 
-\item{yyyymmdd}{date of the calibration certificate issued}
+\item{yyyymmdd}{The date when the calibration certificate was issued, formatted as `yyyymmdd` (e.g., `20211026` for October 26, 2021).}
 
-\item{manufact}{KZ (Kipp and Zonen), EP (Eppley), HF (Hukseflux), ...}
+\item{manufact}{The 2-letter code representing the manufacturer of the pyrgeometer (e.g., `KZ` for Kipp & Zonen, `EP` for Eppley, `HF` for Hukseflux).}
 
-\item{model}{CH1,CH1P,CM11,CM21,CM21P,CM22,CM22P,CG4,CGR4, ...}
+\item{model}{The model of the pyrgeometer (e.g., `CGR4`, `CM21`, `CM22`, `CH1`). This should match the model mentioned in the calibration certificate.}
 
-\item{C}{thermopile responsivity}
+\item{C}{The thermopile responsivity of the pyrgeometer, expressed in µV/W/m². This value is crucial for computing longwave radiation.}
 
-\item{k0}{general equation of the pyrgeometer}
+\item{k0}{A constant in the general equation of the pyrgeometer, related to the thermopile output and calibration factors.}
 
-\item{k1}{general equation of the pyrgeometer}
+\item{k1}{A constant in the general equation of the pyrgeometer, representing temperature-dependent corrections for the instrument.}
 
-\item{k2}{general equation of the pyrgeometer}
+\item{k2}{A constant in the general equation of the pyrgeometer, associated with the Stefan-Boltzmann law for temperature-dependent longwave radiation.}
 
-\item{k3}{general equation of the pyrgeometer}
+\item{k3}{A constant in the general equation of the pyrgeometer, representing corrections for temperature differences between the instrument's dome and body.}
 
-\item{f}{general equation of the pyrgeometer}
+\item{f}{A correction factor in the general equation of the pyrgeometer, accounting for infrared irradiance differences on unshaded domes.}
 }
 \description{
 A LR4000CONST contain object.
+\itemize{
+  \item LR4000CONST$new() : Create a new LR4000 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }
 \examples{
-lr4000 <- LR4000$new()
+# Method 1
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = "61008",
+  certificateCodeID = "2021-2380-01",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
+lr4000const$showBsrnFormat()
+lr4000const_1 <- lr4000const$getBsrnFormat()
 
-lr4000$yearMonth <- "2012-01"
-lr4000$bodyT_down <- rep(1, 44640)
+# Method 2
+lr4000const <- LR4000CONST$new(
+  serialNumber_Manufacturer = "050783",
+  serialNumber_WRMC = "61008",
+  yyyymmdd = 20211026,
+  manufact = "KZ",
+  model = "CH1",
+  C = 9.62,
+  k1 = 0.02,
+  k2 = 0.9974
+)
 
-lr4000
-lr4000$showBsrnFormat(changed = TRUE)
+lr4000const$showBsrnFormat(method = 2)
+lr4000const_2 <- lr4000const$getBsrnFormat(method = 2)
+
+# Adding @LR4000CONST to LR0003 message
+lr0003 <- LR0003$new(message = "Some important message")
+lr0003
+
+lr0003$showBsrnFormat(
+  lr4000const_1,
+  lr4000const_2
+)
 }

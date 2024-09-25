@@ -3,8 +3,44 @@
 \name{LR4000}
 \alias{LR4000}
 \title{R6 Class representing BSRN LR4000 (Logical Record 4000)}
+\arguments{
+\item{yearMonth}{[mandatory] A string representing the year and month of measurement in the format `'YYYY-MM'`.}
+
+\item{domeT1_down}{[optional] A numeric vector for the first dome temperature of the downward long-wave instrument (°C).}
+
+\item{domeT2_down}{[optional] A numeric vector for the second dome temperature of the downward long-wave instrument (°C).}
+
+\item{domeT3_down}{[optional] A numeric vector for the third dome temperature of the downward long-wave instrument (°C).}
+
+\item{bodyT_down}{[optional] A numeric vector for the body temperature of the downward long-wave instrument (°C).}
+
+\item{longwave_down}{[optional] A numeric vector for the thermopile output of the downward long-wave instrument (W/m²).}
+
+\item{domeT1_up}{[optional] A numeric vector for the first dome temperature of the upward long-wave instrument (°C).}
+
+\item{domeT2_up}{[optional] A numeric vector for the second dome temperature of the upward long-wave instrument (°C).}
+
+\item{domeT3_up}{[optional] A numeric vector for the third dome temperature of the upward long-wave instrument (°C).}
+
+\item{bodyT_up}{[optional] A numeric vector for the body temperature of the upward long-wave instrument (°C).}
+
+\item{longwave_up}{[optional] A numeric vector for the thermopile output of the upward long-wave instrument (W/m²).}
+}
 \description{
-R6 Class representing BSRN LR4000 (Logical Record 4000)
+A LR4000 contain object.
+\itemize{
+  \item LR4000$new() : Create a new LR4000 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }
 \examples{
 lr4000 <- LR4000$new()

@@ -3,8 +3,106 @@
 \name{LR0008}
 \alias{LR0008}
 \title{R6 Class representing BSRN LR0008 (Logical Record 0008)}
+\arguments{
+\item{change}{[mandatory] Logical. Indicates if the instruments changed this month (`TRUE` or `FALSE`).}
+
+\item{changeDay}{[optional] Numeric. The day of the month when the instruments changed.}
+
+\item{changeHour}{[optional] Numeric. The hour when the instruments changed (0-23).}
+
+\item{changeMinute}{[optional] Numeric. The minute when the instruments changed (0-59).}
+
+\item{operating}{[mandatory] Logical. Indicates if the instrument is currently measuring (`TRUE` or `FALSE`).}
+
+\item{radiationQuantityMeasured}{[mandatory] Character. The radiation quantity being measured.}
+
+\item{manufacturer}{[mandatory] Character. The manufacturer of the instrument.}
+
+\item{model}{[mandatory] Character. The model of the instrument.}
+
+\item{serialNumber}{[mandatory] Character. The serial number of the instrument.}
+
+\item{dateOfPurchase}{[optional] Character. The date of purchase in `MM/DD/YY` format.}
+
+\item{identification}{[mandatory] Character. The identification number assigned by the WRMC.}
+
+\item{remarks}{[optional] Character. Additional remarks about the radiation instrument.}
+
+\item{pyrgeometerBody}{[optional] Numeric. The pyrgeometer body compensation code.}
+
+\item{pyrgeometerDome}{[optional] Numeric. The pyrgeometer dome compensation code.}
+
+\item{numOfBand}{[optional] Numeric. The number of bands for spectral instruments.}
+
+\item{wavelenghBand1}{[optional] Numeric. The wavelength of band 1 in microns.}
+
+\item{bandwidthBand1}{[optional] Numeric. The bandwidth of band 1 in microns.}
+
+\item{wavelenghBand2}{[optional] Numeric. The wavelength of band 2 in microns.}
+
+\item{bandwidthBand2}{[optional] Numeric. The bandwidth of band 2 in microns.}
+
+\item{wavelenghBand3}{[optional] Numeric. The wavelength of band 3 in microns.}
+
+\item{bandwidthBand3}{[optional] Numeric. The bandwidth of band 3 in microns.}
+
+\item{maxZenithAngle}{[optional] Numeric. The maximum zenith angle in degrees for direct measurements.}
+
+\item{minSpectral}{[optional] Numeric. The minimum spectral value for the instrument.}
+
+\item{location}{[mandatory] Character. The location where calibration was performed.}
+
+\item{person}{[mandatory] Character. The person responsible for the calibration.}
+
+\item{startOfCalibPeriod1}{[mandatory] Character. The start of the calibration period for band 1 in `MM/DD/YY` format.}
+
+\item{endOfCalibPeriod1}{[mandatory] Character. The end of the calibration period for band 1 in `MM/DD/YY` format.}
+
+\item{numOfComp1}{[optional] Numeric. The number of comparisons for band 1.}
+
+\item{meanCalibCoeff1}{[mandatory] Numeric. The mean calibration coefficient for band 1.}
+
+\item{stdErrorCalibCoeff1}{[optional] Numeric. The standard error of the calibration coefficient for band 1.}
+
+\item{startOfCalibPeriod2}{[optional] Character. The start of the calibration period for band 2 in `MM/DD/YY` format.}
+
+\item{endOfCalibPeriod2}{[optional] Character. The end of the calibration period for band 2 in `MM/DD/YY` format.}
+
+\item{numOfComp2}{[optional] Numeric. The number of comparisons for band 2.}
+
+\item{meanCalibCoeff2}{[optional] Numeric. The mean calibration coefficient for band 2.}
+
+\item{stdErrorCalibCoeff2}{[optional] Numeric. The standard error of the calibration coefficient for band 2.}
+
+\item{startOfCalibPeriod3}{[optional] Character. The start of the calibration period for band 3 in `MM/DD/YY` format.}
+
+\item{endOfCalibPeriod3}{[optional] Character. The end of the calibration period for band 3 in `MM/DD/YY` format.}
+
+\item{numOfComp3}{[optional] Numeric. The number of comparisons for band 3.}
+
+\item{meanCalibCoeff3}{[optional] Numeric. The mean calibration coefficient for band 3.}
+
+\item{stdErrorCalibCoeff3}{[optional] Numeric. The standard error of the calibration coefficient for band 3.}
+
+\item{remarksOnCalib1}{[optional] Character. Remarks on the calibration, including units of the calibration coefficient.}
+
+\item{remarksOnCalib2}{[optional] Character. Additional remarks on the calibration (continued).}
+}
 \description{
 A LR0008 contain object.
+\itemize{
+  \item LR0008$new() : Create a new LR0008 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }
 \examples{
 lr0008_1 <- LR0008$new(

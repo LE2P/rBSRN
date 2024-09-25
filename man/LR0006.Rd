@@ -3,6 +3,40 @@
 \name{LR0006}
 \alias{LR0006}
 \title{R6 Class representing BSRN LR0006 (Logical Record 0006)}
+\arguments{
+\item{change}{[mandatory] Logical. Indicates if the ozone measurements equipment changed this month (`TRUE` or `FALSE`).}
+
+\item{changeDay}{[optional] Numeric. The day of the month when the ozone measurements equipment changed.}
+
+\item{changeHour}{[optional] Numeric. The hour when the ozone measurements equipment changed (0-23).}
+
+\item{changeMinute}{[optional] Numeric. The minute when the ozone measurements equipment changed (0-59).}
+
+\item{operating}{[mandatory] Logical. Indicates if the ozone measurements are operating (`TRUE` or `FALSE`).}
+
+\item{manufacturer}{[mandatory] Character. The manufacturer of the ozone measurement instrument.}
+
+\item{location}{[mandatory] Character. The location of the ozone measurement instrument.}
+
+\item{distanceFromSite}{[mandatory] Numeric. The distance from the radiation site in kilometers (km).}
+
+\item{identification}{[mandatory] Character. The identification number of the ozone instrument.}
+
+\item{remarks}{[optional] Character. Any additional remarks about the ozone measurements.}
+}
 \description{
 A LR0006 contain object.
+\itemize{
+  \item LR0006$new() : Create a new LR0006 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }

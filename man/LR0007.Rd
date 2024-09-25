@@ -3,8 +3,40 @@
 \name{LR0007}
 \alias{LR0007}
 \title{R6 Class representing BSRN LR0007 (Logical Record 0007)}
+\arguments{
+\item{change}{[mandatory] Logical. Indicates if the station history changed this month (`TRUE` or `FALSE`).}
+
+\item{changeDay}{[optional] Numeric. The day of the month when the station history changed.}
+
+\item{changeHour}{[optional] Numeric. The hour when the station history changed (0-23).}
+
+\item{changeMinute}{[optional] Numeric. The minute when the station history changed (0-59).}
+
+\item{cloudAmount}{[optional] Character. Method used to estimate cloud amount (e.g., digital processing).}
+
+\item{cloudBaseHeight}{[optional] Character. Method used to estimate cloud base height (with instrument).}
+
+\item{cloudLiquid}{[optional] Character. Method used to estimate cloud liquid water content.}
+
+\item{cloudAerosol}{[optional] Character. Method used to estimate cloud aerosol vertical distribution.}
+
+\item{waterVapour}{[optional] Character. Method used to estimate water vapour pressure (v.d.) measurements.}
+}
 \description{
 A LR0007 contain object.
+\itemize{
+  \item LR0007$new() : Create a new LR0007 object
+  \item isMandatory() : Is variable version is mandatory ?
+  \item isMissing() : Is variable version is missing ?
+  \item isValuesMissing() : Is any value is missing ?
+  \item mandatories() : List of mandatory variable.
+  \item missings() : List of missing variables.
+  \item setDefault() : Set a variable to default value.
+  \item getFormatValue () : Get value with the correct format.
+  \item getBsrnFormat() : Get the BSRN format of the object.
+  \item showBsrnFormat() : Print the BSRN format.
+  \item print() : Generic print method.
+}
 }
 \examples{
 lr0007 <- LR0007$new()

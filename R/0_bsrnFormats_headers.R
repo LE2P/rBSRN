@@ -242,6 +242,10 @@ lr0008GetBsrnFormat <- function(anyChange = FALSE, printLr = FALSE, LR0009Format
 
 #' LR4000CONST get BSRN format function
 #'
+#' @param method A character or numeric value indicating which method to use for compiling the `@LR4000CONST` metadata:
+#'        - If `1`, the function will use **Method 1**, where all calibration constants and metadata are manually inputted directly in the metadata line (e.g., `@LR4000CONST, s/n, WMO, CertificateCodeID, C, k0, k1, k2, k3, f`).
+#'        - If `2`, the function will use **Method 2**, where the calibration certificate is stored centrally, and the metadata line includes a reference to the centrally stored calibration document (e.g., `@LR4000CONST, s/n, WMO, CAL_date_manufacturer_model_serial_WMO,& C, k0, k1, k2, k3, f`).
+#'        Method 2 is preferred if calibration documents are stored in a centralized archive.
 #' @return A char with the BSRN format
 #'
 lr4000constGetBsrnFormat <- function(method = 1){
